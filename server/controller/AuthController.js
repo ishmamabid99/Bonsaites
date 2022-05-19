@@ -21,7 +21,8 @@ module.exports.Register = async (req, res) => {
         const token = jwt.sign({
             user_id: user._id,
             user_email: user.email,
-            user_phone: user.phone
+            user_phone: user.phone,
+            user_role: "ORG"
         }, process.env.TOKEN_KEY, {
             expiresIn: '2h'
         })
@@ -73,7 +74,8 @@ module.exports.Login = async (req, res) => {
         console.log(user_role)
         if (user_role === "REGULAR") {
             const user = await User.findOne({ email });
-            if (user && (bcrypt.compare(password, user.password))) {
+            const check = await bcrypt.compare(password, user.password);
+            if (user && check) {
                 const token = jwt.sign({
                     user_id: user._id,
                     user_email: user.email,
@@ -92,7 +94,8 @@ module.exports.Login = async (req, res) => {
         else if (user_role === "ORG") {
             console.log('wie')
             const user = await Organization.findOne({ email });
-            if (user && (bcrypt.compare(password, user.password))) {
+            const check = await bcrypt.compare(password, user.password);
+            if (user && check) {
                 const token = jwt.sign({
                     user_id: user._id,
                     user_email: user.email,
@@ -106,6 +109,7 @@ module.exports.Login = async (req, res) => {
 
             }
             else {
+                console.log('hoynai')
                 res.status(400).send("Invalid Credentials")
             }
         }

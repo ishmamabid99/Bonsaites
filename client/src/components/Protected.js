@@ -5,7 +5,7 @@ const Protected = ({ isLoggedin, children }) => {
         return children;
     }
     else
-        return <Redirect to="/login" replace />;
+        return <Redirect to="/" replace />;
 
 };
 export default Protected;

@@ -1,7 +1,7 @@
 
 import axios from 'axios'
+import Cookies from 'js-cookie';
 import { path } from '../env/env'
-
 
 export const registerUser = async (data) => {
     const res = await axios.post(path + '/register', {
@@ -40,5 +40,23 @@ export const loginUser = async (data) => {
         else {
             return false;
         }
+    }
+}
+export const postProduct = async (data) => {
+    try {
+        console.log(data);
+        const token = Cookies.get('x-access');
+        const formData = new FormData();
+        formData.append('productImage', data.image);
+        formData.append("name", data.name);
+        formData.append("quantity", data.quantity);
+        formData.append('price', data.price);
+        formData.append('desc', data.desc);
+        formData.append("token", token);
+        const res = await axios.post(path + '/add-product', formData);
+    }
+
+    catch (err) {
+        console.log(err)
     }
 }

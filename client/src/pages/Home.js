@@ -2,7 +2,6 @@ import React from 'react'
 import OrgHome from './OrgHome';
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode'
-import UserHome from './UserHome';
 import Landing from './Landing';
 export default function Home(props) {
     console.log(props.org);
@@ -11,11 +10,11 @@ export default function Home(props) {
         const token = jwt_decode(check);
         const role = token.user_role
         if (role === "ORG") {
-            return <OrgHome/>
+            return <OrgHome />
         }
         else if (role === 'REGULAR') {
             return (
-                <UserHome />
+                <Landing />
             )
 
         }

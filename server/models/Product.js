@@ -2,7 +2,15 @@ const mongoose = require('mongoose');
 
 
 const producSchema = mongoose.Schema({
-    title: {
+    name: {
+        type: String,
+        required: true
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    type: {
         type: String,
         required: true
     },
@@ -17,5 +25,13 @@ const producSchema = mongoose.Schema({
     ownwer: {
         type: String,
         required: true
+    },
+    img: {
+        type: String,
+        required: true
     }
 })
+
+const Product = mongoose.model('product', producSchema);
+
+module.exports = Product;

@@ -1,19 +1,26 @@
 import React, { useContext, useState } from 'react'
 import { createTheme } from '@material-ui/core/styles';
-import { Button, Divider, FormGroup, FormHelperText, Grid, Link, makeStyles, TextField, ThemeProvider, Typography } from '@material-ui/core';
+import { Button, Grid, Link, makeStyles, Paper, TextField, ThemeProvider, Typography } from '@material-ui/core';
 import { registerOrg } from '../functions/postData';
 import AuthApi from '../contexts/AuthApi';
 import jwt_decode from 'jwt-decode';
 import Cookies from 'js-cookie';
-
+import OrgSign from '../images/OrgSign.jpg'
+import NavProps from '../components/NavProps';
+import { useHistory } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
     root: {
-        marginTop: theme.spacing(30)
+        justifyContent: "center",
+        background: "#eae8e9",
+        backgroundSize: "cover",
+        height: "100vh",
+        width: "100vw",
+        opacity: "0.8"
+
     },
     typo: {
         fontFamily: 'Montserrat',
         fontSize: '4rem',
-
         opacity: "0.65"
 
     },
@@ -30,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     },
     text: {
         width: "20rem",
-        marginBottom: '0.75rem',
+        marginBottom: '1.15rem',
         color: "#161616"
     },
     formDiv: {
@@ -41,15 +48,41 @@ const useStyles = makeStyles((theme) => ({
         color: "#FFF",
         "&:hover": {
             background: "#161616"
-        }
+        },
+        width: "16rem",
+        marginTop: "2rem"
     },
     helper: {
         marginTop: "0.75rem"
+    },
+    sidePaper: {
+        backgroundImage: `url(${OrgSign})`,
+        backgroundSize: "cover",
+        height: "38rem",
+        width: "30rem",
+        padding: "2rem"
+    },
+    typoNew: {
+        fontFamily: 'Lemon',
+        fontSize: '2rem',
+        color: '#3E3636',
+    },
+    LoginPaper: {
+        padding: "2rem"
+    },
+    grid: {
+        paddingTop: "7rem"
+    },
+    form: {
+        marginTop: "3rem",
+        width: "28rem"
     }
 }))
 export default function OrganizationSignup() {
+    const history = useHistory();
     const classes = useStyles()
     const auth = useContext(AuthApi)
+    const nav = useContext(NavProps);
     const theme = createTheme({
         palette: {
             primary: {
@@ -78,6 +111,10 @@ export default function OrganizationSignup() {
             if (val.exp * 1000 > date.getTime()) {
                 Cookies.set('x-access', token);
                 auth.setLogin(true);
+                console.log(val.user_role)
+                nav.setNav(val.user_role);
+                history.push('/')
+
             }
             else {
                 auth.setLogin(false)
@@ -85,74 +122,72 @@ export default function OrganizationSignup() {
         }
     }
     return (
-        <div>
+        <Paper className={classes.root} elevation={0}>
+            <div>
+                <Grid justifyContent='center' container className={classes.grid}>
+                    <Paper square={true} className={classes.sidePaper} elevation={0}>
+                    </Paper>
+                    <Paper square={true} className={classes.LoginPaper} elevation={0}>
+                        <Typography align='center' className={classes.typoNew}>
+                            Do You Know We
+                        </Typography>
+                        <Typography align='center' className={classes.typoNew}>
+                            Share Our Profit
+                        </Typography>
+                        <Typography align='center' className={classes.typoNew}>
+                            With Suppliers?
+                        </Typography>
+                        <div className={classes.form} align='center' onChange={handleChange}>
+                            <ThemeProvider theme={theme}>
+                                <TextField
+                                    id='name'
+                                    color='primary'
+                                    type='text'
+                                    label='Full Name'
+                                    className={classes.text}
+                                    placeholder="Your Name"
+                                />
+                                <TextField
+                                    id='phone'
+                                    color='primary'
+                                    type='tel'
+                                    label='Phone'
+                                    className={classes.text}
+                                    placeholder="Your Phone Number"
+                                />
+                                <TextField
+                                    id='email'
+                                    color='primary'
+                                    type='email'
+                                    label='Email'
+                                    className={classes.text}
+                                    placeholder="Your Email Address"
+                                />
+                                <TextField
+                                    id='password'
+                                    color='primary'
+                                    type='password'
+                                    label='Password'
+                                    className={classes.text}
+                                    placeholder="Your Password"
+                                />
+                                <TextField
+                                    id='confirm'
+                                    color='primary'
+                                    type='password'
+                                    label='Confirm'
+                                    className={classes.text}
+                                    placeholder="Confrim Password"
+                                />
+                            </ThemeProvider >
+                            <div>
+                                <Button onClick={handleSubmit} className={classes.btn} variant='contained' >Signup</Button>
+                            </div>
+                        </div>
 
-            <Grid className={classes.root} container justifyContent='space-evenly'>
-                <div className={classes.customerDiv}>
-                    <Typography className={classes.typo}>
-                        ORGANIZATION
-                    </Typography>
-                    <Typography className={classes.typo}>
-                        SIGNUP
-                    </Typography>
-                    <Typography className={classes.typo}></Typography>
-
-                    <div align='left'>
-                        <Divider className={classes.divider} />
-                    </div>
-                </div>
-                <div className={classes.formDiv}>
-                    <FormGroup onChange={handleChange}>
-                        <ThemeProvider theme={theme}>
-                            <TextField
-                                id='name'
-                                color='primary'
-                                variant='outlined'
-                                type='text'
-                                label='Full Name'
-                                className={classes.text}
-                            />
-                            <TextField
-                                id='phone'
-                                color='primary'
-                                variant='outlined'
-                                type='tel'
-                                label='Phone'
-                                className={classes.text}
-                            />
-                            <TextField
-                                id='email'
-                                color='primary'
-                                variant='outlined'
-                                type='email'
-                                label='Email'
-                                className={classes.text}
-                            />
-                            <TextField
-                                id='password'
-                                color='primary'
-                                variant='outlined'
-                                type='password'
-                                label='Password'
-                                className={classes.text}
-                            />
-                            <TextField
-                                id='confirm'
-                                color='primary'
-                                variant='outlined'
-                                type='password'
-                                label='Confirm'
-                                className={classes.text}
-                            />
-                            <Button onClick={handleSubmit} className={classes.btn} variant='contained' >Signup</Button>
-                            <FormHelperText className={classes.helper}>
-                                <Link href='/login' color='primary'>Already have an account? Login instead</Link>
-                            </FormHelperText>
-                        </ThemeProvider >
-                    </FormGroup>
-                </div>
-            </Grid>
-
-        </div>
+                    </Paper>
+                </Grid>
+            </div>
+        </Paper>
     )
 }

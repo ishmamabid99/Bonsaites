@@ -153,7 +153,7 @@ export default function Login(props) {
                             <FormHelperText className={classes.helper} >
                                 <Link href='/signup' color='primary'>Don't have an account? Singup instead</Link>
                             </FormHelperText>
-                        </ThemeProvider >;
+                        </ThemeProvider >
                     </FormGroup>
                 </div>
             </Grid>
