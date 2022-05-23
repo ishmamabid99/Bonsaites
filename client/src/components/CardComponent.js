@@ -5,7 +5,7 @@ import Greenpaper from '../images/CardImage.jpg'
 const useStyles = makeStyles(theme => ({
     paper: {
         height: "24rem",
-        width: '24rem'
+        width: '30rem'
     },
     root: {
         marginTop: "7rem"

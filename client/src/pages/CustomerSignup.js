@@ -13,8 +13,8 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "center",
         background: '#eae8e9',
         backgroundSize: "cover",
-        height: "100vh",
-        width: "100vw",
+        height: "100%",
+        width: "100%",
         opacity: "0.8"
 
     },
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     sidePaper: {
         backgroundImage: `url(${CustomerImage})`,
         backgroundSize: "cover",
-        height: "38rem",
+        height: "35rem",
         width: "30rem",
         padding: "2rem"
     },
@@ -143,6 +143,7 @@ export default function CustomerSignup() {
                                     type='text'
                                     label='Full Name'
                                     className={classes.text}
+                                    placeholder="Your Name"
                                 />
                                 <TextField
                                     id='phone'
@@ -150,6 +151,7 @@ export default function CustomerSignup() {
                                     type='tel'
                                     label='Phone'
                                     className={classes.text}
+                                    placeholder="Your Phone Number"
                                 />
                                 <TextField
                                     id='email'
@@ -157,6 +159,7 @@ export default function CustomerSignup() {
                                     type='email'
                                     label='Email'
                                     className={classes.text}
+                                    placeholder="Your Email Address"
                                 />
                                 <TextField
                                     id='password'
@@ -164,6 +167,7 @@ export default function CustomerSignup() {
                                     type='password'
                                     label='Password'
                                     className={classes.text}
+                                    placeholder="Your Password"
                                 />
                                 <TextField
                                     id='confirm'
@@ -171,6 +175,7 @@ export default function CustomerSignup() {
                                     type='password'
                                     label='Confirm'
                                     className={classes.text}
+                                    placeholder="Confrim Password"
                                 />
                             </ThemeProvider >
                             <div>

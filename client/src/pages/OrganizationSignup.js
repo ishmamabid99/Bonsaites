@@ -13,10 +13,10 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "center",
         background: "#eae8e9",
         backgroundSize: "cover",
-        height: "100vh",
-        width: "100vw",
-        opacity: "0.8"
-
+        height: "auto",
+        width: "auto",
+        opacity: "0.8",
+        paddingBottom:"20rem"
     },
     typo: {
         fontFamily: 'Montserrat',
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     sidePaper: {
         backgroundImage: `url(${OrgSign})`,
         backgroundSize: "cover",
-        height: "38rem",
+        height: "40rem",
         width: "30rem",
         padding: "2rem"
     },
@@ -68,10 +68,11 @@ const useStyles = makeStyles((theme) => ({
         color: '#3E3636',
     },
     LoginPaper: {
-        padding: "2rem"
+        padding: "2rem",
+        height:"40rem"
     },
     grid: {
-        paddingTop: "7rem"
+        paddingTop: "7rem",
     },
     form: {
         marginTop: "3rem",
@@ -122,7 +123,7 @@ export default function OrganizationSignup() {
         }
     }
     return (
-        <Paper className={classes.root} elevation={0}>
+        <Paper className={classes.root} elevation={3}>
             <div>
                 <Grid justifyContent='center' container className={classes.grid}>
                     <Paper square={true} className={classes.sidePaper} elevation={0}>

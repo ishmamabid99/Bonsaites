@@ -52,8 +52,10 @@ export const postProduct = async (data) => {
         formData.append("quantity", data.quantity);
         formData.append('price', data.price);
         formData.append('desc', data.desc);
+        formData.append('type', data.type);
         formData.append("token", token);
         const res = await axios.post(path + '/add-product', formData);
+        
     }
 
     catch (err) {

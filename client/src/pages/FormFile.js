@@ -1,4 +1,4 @@
-import { Avatar, Button, createTheme, Input, makeStyles, TextField, ThemeProvider, Typography } from '@material-ui/core'
+import { Avatar, Button, createTheme, FormControl, Input, InputLabel, makeStyles, Menu, MenuItem, Select, TextField, ThemeProvider, Typography } from '@material-ui/core'
 import React, { useContext, useState } from 'react'
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import NavProps from '../components/NavProps';
@@ -7,7 +7,8 @@ import { postProduct } from '../functions/postData';
 const useStyles = makeStyles(theme => ({
     txtfield: {
         width: "22rem",
-        marginBottom: "1rem"
+        height: "2.5rem",
+        marginBottom: "1.25rem"
     },
     root: {
         marginTop: "0rem"
@@ -27,14 +28,19 @@ const useStyles = makeStyles(theme => ({
         margin: '3rem  0  5rem 0',
         width: "22rem",
 
+    },
+    formControl: {
+        width: "22rem",
+        margin: '1rem'
     }
 }))
 export default function FormFile() {
     const classes = useStyles();
     const [image, setImage] = useState(null)
     const nav = useContext(NavProps);
-    const [data, setData] = useState(null);
+    const [data, setData] = useState({ age: "" });
     nav.setNav("ORG")
+    const [age, setAge] = useState("");
     const theme = createTheme({
         palette: {
             primary: {
@@ -53,8 +59,12 @@ export default function FormFile() {
         else {
             setData({ ...data, [e.target.name]: e.target.files[0] });
         }
+        if (e.target.name === 'type') {
+            setAge(e.target.value)
+        }
     }
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         if (data && data.name && data.image && data.desc && data.price && data.quantity) {
             postProduct(data);
         }
@@ -68,11 +78,29 @@ export default function FormFile() {
                 Add your product
             </Typography>
             <ThemeProvider theme={theme}>
-                <form encType='multipart/form-data' style={{ maxWidth: '30rem', marginBottom: "10rem" }} onChange={(e) => handleChange(e)}>
+                <form encType='multipart/form-data' style={{ maxWidth: '30rem', marginBottom: "10rem", height: "40rem" }} onChange={(e) => handleChange(e)}>
                     <TextField name='name' variant='standard' className={classes.txtfield} label='Name' placeholder='Name of your product' />
                     <TextField name='quantity' variant='standard' className={classes.txtfield} label='Quantity' placeholder='Number of product you can supply' />
                     <TextField name='price' variant='standard' className={classes.txtfield} label='Price' placeholder='Price of your product' />
-                    <TextField name='desc' variant='outlined' multiline row={3} maxRows={10} className={classes.txtfield} label='Description' placeholder='Products detailed Description' />
+                    <TextField name='desc' variant='standard' multiline row={3} maxRows={2} className={classes.txtfield} label='Description' placeholder='Products detailed Description' />
+
+                    <FormControl className={classes.formControl}>
+                        <InputLabel htmlFor="age-native-simple">Type</InputLabel>
+                        <Select
+                            native
+                            value={age}
+                            onChange={handleChange}
+                            inputProps={{
+                                name: 'type',
+                                id: 'age-native-simple',
+                            }}
+                        >
+                            <option value="" disabled />
+                            <option value={10}>Ten</option>
+                            <option value={20}>Twenty</option>
+                            <option value={30}>Thirty</option>
+                        </Select>
+                    </FormControl>
                     <input name='image' type='file' onChange={(e) => {
                         setImage(URL.createObjectURL(e.target.files[0]));
 
@@ -86,7 +114,7 @@ export default function FormFile() {
                             }
                         </Avatar>
                     </label>
-                    <Button onClick={handleSubmit} variant='contained' color='primary' className={classes.btn} >Add product</Button>
+                    <Button onClick={(e)=>handleSubmit(e)} variant='contained' color='primary' className={classes.btn} >Add product</Button>
                 </form>
             </ThemeProvider>
         </div>
