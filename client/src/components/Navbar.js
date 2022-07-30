@@ -18,6 +18,7 @@ import { loginUser } from '../functions/postData';
 import Cookies from 'js-cookie';
 import AuthApi from '../contexts/AuthApi';
 import FormFile from '../pages/FormFile';
+import BankApi from '../contexts/BankApi';
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -63,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
     },
     modal: {
         width: "29rem",
-        height: "48rem",
+        height: "50rem",
         backgroundImage: `url(${ShopImage})`,
         backgroundSize: "cover",
 
@@ -73,14 +74,14 @@ const useStyles = makeStyles((theme) => ({
         background: "transparent",
 
         width: "30rem",
-        height: "48rem",
+        height: "50rem",
         backgroundImage: `url(${PostModal})`,
         backgroundSize: "cover",
     },
     anotherPaper: {
         background: "transparent",
         width: "35rem",
-        height: "48rem",
+        height: "50rem",
         background: "#F1F0EC"
     },
     myModal: {
@@ -122,6 +123,7 @@ export default function Navbar() {
     const [check, setCheck] = useState(false)
     const [modal, setModal] = useState(false);
     const [postModal, setPostModal] = useState(false)
+    const bank = useContext(BankApi)
     const classes = useStyles();
     console.log(auth)
     const theme = createTheme({
@@ -164,6 +166,7 @@ export default function Navbar() {
                 console.log(val.user_role)
                 auth.setLogin(true);
                 nav.setNav(val.user_role);
+                bank.setBank(data.bank)
                 history.push('/');
             }
             else {
@@ -188,131 +191,142 @@ export default function Navbar() {
                             </NavLink>
                         </div>
                     </div>
-                    {nav.nav === "REGULAR" ?
-                        <div align='right' className={classes.div2}>
-                            <ThemeProvider theme={theme}>
-                                <IconButton color='secondary' >
-                                    <SearchIcon className={classes.icons} />
-                                </IconButton>
-                                <NavLink to='cart'>
-                                    <IconButton color='secondary'>
-                                        <ShoppingCartIcon className={classes.icons} />
-                                    </IconButton>
-                                </NavLink>
-                                <NavLink to='profile'>
-                                    <IconButton color='secondary'>
-                                        <AccountCircleIcon className={classes.icons} />
-                                    </IconButton>
-                                </NavLink>
-                                <NavLink to='wishlist'>
-                                    <IconButton color='secondary'>
-                                        <FavoriteIcon className={classes.icons} />
-                                    </IconButton>
-                                </NavLink>
-                            </ThemeProvider>
-                        </div>
-                        :
-                        <></>
-                    }
-                    {nav.nav === "ORG" ?
-
-                        <ThemeProvider theme={theme}>
-                            <Modal open={postModal}
-                                onClose={() => setPostModal(false)}
-                                className={classes.myModal}
-                            >
-                                <Paper align='center' elevation={3} style={{ width: '65rem', height: "48rem" }}>
-                                    <Grid container justifyContent='space-around'>
-                                        <Paper className={classes.postModal} elevation={0} >
-                                        </Paper>
-                                        <Paper className={classes.anotherPaper}>
-                                            <ThemeProvider theme={theme}>
-                                                <FormFile />
-                                            </ThemeProvider>
-                                        </Paper>
-                                    </Grid>
-
-                                </Paper>
-                            </Modal>
-                            <div align='right' className={classes.div2}>
-                                <ThemeProvider theme={theme}>
-                                    <ButtonGroup variant='text'>
-                                        <Button onClick={() => { setPostModal(true) }} className={classes.typo}>
-                                            <Typography className={classes.btn}>ADD PRODUCT</Typography>
-                                        </Button>
-                                        <NavLink to='/add-product'>
-                                            <Button className={classes.typo}>
-                                                <Typography className={classes.btn}>MY PRODUCTS</Typography>
-                                            </Button>
-                                        </NavLink>'
-
-                                        <Button className={classes.typo}>
-                                            <Typography className={classes.btn}>Logout</Typography>
-                                        </Button>
-
-                                    </ButtonGroup>
-                                </ThemeProvider>
-                            </div>
-                        </ThemeProvider>
-                        :
-                        <></>
-                    }
-                    {nav.nav === "LANDING" ?
-
+                    {bank.bank === true ?
                         <>
-                            <Modal
-                                className={classes.myModal}
-                                open={modal}
-                                onClose={() => { setModal(false) }}
-                            >
-                                <Paper align='center' elevation={3}>
-                                    <Grid container justifyContent='space-around'>
-                                        <Paper className={classes.modal} elevation={0} >
-                                        </Paper>
-                                        <Paper className={classes.anotherPaper}>
-                                            <ThemeProvider theme={theme}>
-                                                <div onChange={(e) => handleChange(e)} align='center' style={{ marginTop: "10rem" }} elevation={0}>
-                                                    <Typography className={classes.formTypo}>
-                                                        Good to see you
-                                                    </Typography>
-                                                    <div style={{ marginTop: "4rem" }}>
-                                                        <TextField variant='standard' color='secondary' className={classes.textFeild} id='email' label='Email' type='email' placeholder='Enter your email please' />
-                                                        <TextField variant='standard' color='secondary' className={classes.textFeild} id='password' label='Password' type='password' placeholder='Enter your email please' />
-                                                    </div>
-                                                    <div align='center' style={{ marginTop: '1.5rem' }}>
-                                                        <FormControlLabel
-                                                            control={<Checkbox value={check} checked={check} onChange={handleCheck} id='role' />}
-                                                            label={<Typography
-                                                                className={classes.check}
-                                                            >Are you a product supplier?</Typography>}
-                                                        />
-                                                    </div>
-                                                    <Button onClick={handleSubmit} className={classes.loginBtn} size='large'>
-                                                        <Typography className={classes.loginTypo} >Login</Typography>
-                                                    </Button>
-                                                </div>
-                                            </ThemeProvider>
-                                        </Paper>
-                                    </Grid>
+                            {nav.nav === "REGULAR" ?
+                                <div align='right' className={classes.div2}>
+                                    <ThemeProvider theme={theme}>
+                                        <IconButton color='secondary' >
+                                            <SearchIcon className={classes.icons} />
+                                        </IconButton>
+                                        <NavLink to='cart'>
+                                            <IconButton color='secondary'>
+                                                <ShoppingCartIcon className={classes.icons} />
+                                            </IconButton>
+                                        </NavLink>
+                                        <NavLink to='profile'>
+                                            <IconButton color='secondary'>
+                                                <AccountCircleIcon className={classes.icons} />
+                                            </IconButton>
+                                        </NavLink>
+                                        <NavLink to='wishlist'>
+                                            <IconButton color='secondary'>
+                                                <FavoriteIcon className={classes.icons} />
+                                            </IconButton>
+                                        </NavLink>
+                                    </ThemeProvider>
+                                </div>
+                                :
+                                <></>
+                            }
+                            {nav.nav === "ORG" ?
 
-                                </Paper>
-                            </Modal>
-                            <div align='right' className={classes.div2}>
                                 <ThemeProvider theme={theme}>
-                                    <ButtonGroup variant='text'>
-                                        <Button onClick={() => { setModal(true) }} className={classes.typo}>
-                                            <Typography className={classes.btn}>Login</Typography>
-                                        </Button>
+                                    <Modal open={postModal}
+                                        onClose={() => setPostModal(false)}
+                                        className={classes.myModal}
+                                    >
+                                        <Paper align='center' elevation={3} style={{ width: '65rem', height: "50rem" }}>
+                                            <Grid container justifyContent='space-around'>
+                                                <Paper className={classes.postModal} elevation={0} >
+                                                </Paper>
+                                                <Paper className={classes.anotherPaper}>
+                                                    <ThemeProvider theme={theme}>
+                                                        <FormFile />
+                                                    </ThemeProvider>
+                                                </Paper>
+                                            </Grid>
 
-                                        <Button href='/signup' className={classes.typo}>
-                                            <Typography className={classes.btn}>signup</Typography>
-                                        </Button>
-                                    </ButtonGroup>
+                                        </Paper>
+                                    </Modal>
+                                    <div align='right' className={classes.div2}>
+                                        <ThemeProvider theme={theme}>
+                                            <ButtonGroup variant='text'>
+                                                <Button onClick={() => { setPostModal(true) }} className={classes.typo}>
+                                                    <Typography className={classes.btn}>ADD PRODUCT</Typography>
+                                                </Button>
+                                                <NavLink to='/my-product'>
+                                                    <Button className={classes.typo}>
+                                                        <Typography className={classes.btn}>MY PRODUCTS</Typography>
+                                                    </Button>
+                                                </NavLink>'
+
+                                                <Button onClick={() => {
+                                                    auth.setLogin(false);
+                                                    nav.setNav("LANDING");
+                                                    Cookies.remove('x-access');
+                                                    history.push('/')
+                                                }} className={classes.typo}>
+                                                    <Typography className={classes.btn}>Logout</Typography>
+                                                </Button>
+
+                                            </ButtonGroup>
+                                        </ThemeProvider>
+                                    </div>
                                 </ThemeProvider>
-                            </div>
+                                :
+                                <></>
+                            }
+                            {nav.nav === "LANDING" ?
+
+                                <>
+                                    <Modal
+                                        className={classes.myModal}
+                                        open={modal}
+                                        onClose={() => { setModal(false) }}
+                                    >
+                                        <Paper align='center' elevation={3}>
+                                            <Grid container justifyContent='space-around'>
+                                                <Paper className={classes.modal} elevation={0} >
+                                                </Paper>
+                                                <Paper className={classes.anotherPaper}>
+                                                    <ThemeProvider theme={theme}>
+                                                        <div onChange={(e) => handleChange(e)} align='center' style={{ marginTop: "10rem" }} elevation={0}>
+                                                            <Typography className={classes.formTypo}>
+                                                                Good to see you
+                                                            </Typography>
+                                                            <div style={{ marginTop: "4rem" }}>
+                                                                <TextField variant='standard' color='secondary' className={classes.textFeild} id='email' label='Email' type='email' placeholder='Enter your email please' />
+                                                                <TextField variant='standard' color='secondary' className={classes.textFeild} id='password' label='Password' type='password' placeholder='Enter your email please' />
+                                                            </div>
+                                                            <div align='center' style={{ marginTop: '1.5rem' }}>
+                                                                <FormControlLabel
+                                                                    control={<Checkbox value={check} checked={check} onChange={handleCheck} id='role' />}
+                                                                    label={<Typography
+                                                                        className={classes.check}
+                                                                    >Are you a product supplier?</Typography>}
+                                                                />
+                                                            </div>
+                                                            <Button onClick={handleSubmit} className={classes.loginBtn} size='large'>
+                                                                <Typography className={classes.loginTypo} >Login</Typography>
+                                                            </Button>
+                                                        </div>
+                                                    </ThemeProvider>
+                                                </Paper>
+                                            </Grid>
+
+                                        </Paper>
+                                    </Modal>
+                                    <div align='right' className={classes.div2}>
+                                        <ThemeProvider theme={theme}>
+                                            <ButtonGroup variant='text'>
+                                                <Button onClick={() => { setModal(true) }} className={classes.typo}>
+                                                    <Typography className={classes.btn}>Login</Typography>
+                                                </Button>
+
+                                                <Button href='/signup' className={classes.typo}>
+                                                    <Typography className={classes.btn}>signup</Typography>
+                                                </Button>
+                                            </ButtonGroup>
+                                        </ThemeProvider>
+                                    </div>
+                                </>
+                                :
+                                <></>
+                            }
                         </>
                         :
-                        <></>
+                        null
                     }
                 </Toolbar>
             </AppBar>

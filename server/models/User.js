@@ -16,6 +16,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    bank: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
     token: {
         type: String
     }

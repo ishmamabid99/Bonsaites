@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
         marginBottom: "1.25rem"
     },
     root: {
-        marginTop: "0rem"
+        marginTop: "0rem",
     },
     typo: {
         marginTop: "3rem",

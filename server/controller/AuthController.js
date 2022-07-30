@@ -18,11 +18,13 @@ module.exports.Register = async (req, res) => {
         data.password = await bcrypt.hash(data.password, 10);
 
         const user = await User.create({ ...data });
+        console.log(user)
         const token = jwt.sign({
             user_id: user._id,
             user_email: user.email,
             user_phone: user.phone,
-            user_role: "ORG"
+            user_role: "REGULAR",
+            user_bank: user.bank,
         }, process.env.TOKEN_KEY, {
             expiresIn: '2h'
         })
@@ -30,6 +32,7 @@ module.exports.Register = async (req, res) => {
         res.status(201).json(user)
     }
     catch (err) {
+        res.status(404).json(`${err}`)
         console.log(err)
     }
 }
@@ -53,6 +56,7 @@ module.exports.OrgRegistration = async (req, res) => {
             user_id: user._id,
             user_email: user.email,
             user_phone: user.phone,
+            user_bank: user.bank,
             user_role: "ORG"
         }, process.env.TOKEN_KEY, {
             expiresIn: '2h'
@@ -79,6 +83,8 @@ module.exports.Login = async (req, res) => {
                 const token = jwt.sign({
                     user_id: user._id,
                     user_email: user.email,
+                    user_phone: user.phone,
+                    user_bank: user.bank,
                     user_role: "REGULAR"
                 }, process.env.TOKEN_KEY, {
                     expiresIn: '2h'
@@ -99,6 +105,8 @@ module.exports.Login = async (req, res) => {
                 const token = jwt.sign({
                     user_id: user._id,
                     user_email: user.email,
+                    user_phone: user.phone,
+                    user_bank: user.bank,
                     user_role: "ORG"
                 }, process.env.TOKEN_KEY, {
                     expiresIn: '2h'
@@ -117,6 +125,7 @@ module.exports.Login = async (req, res) => {
     }
     catch (err) {
         console.log(err)
+        return res.status(404).json(`${err}`)
     }
 
 }

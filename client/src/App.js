@@ -4,7 +4,7 @@ import WishList from './pages/WishList';
 import Profile from './pages/Profile';
 import Cart from './pages/Cart';
 import Navbar from './components/Navbar';
-import Login from './pages/Login';
+
 import NavProps from './components/NavProps';
 import Home from './pages/Home';
 import Protected from './components/Protected';
@@ -15,12 +15,13 @@ import AuthApi from './contexts/AuthApi';
 import jwtDecode from 'jwt-decode';
 import CustomerSignup from './pages/CustomerSignup';
 import OrganizationSignup from './pages/OrganizationSignup';
-import AddProduct from './pages/AddProduct';
-import Footer from './components/Footer'
+import MyProduct from './pages/MyProduct'
 import ProgressBarContext from './components/ProgressBarContext';
 import { CircularProgress, createTheme, makeStyles, ThemeProvider } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 import ProductDetails from './pages/ProductDetails';
+import Bank from './pages/Bank';
+import BankApi from './contexts/BankApi';
 const useStyles = makeStyles(theme => ({
   bar: {
     position: "absolute",
@@ -37,6 +38,7 @@ export default function App() {
   const [org, setOrg] = useState(null);
   const [modal, setModal] = useState(false);
   const [bar, setBar] = useState(false);
+  const [bank, setBank] = useState(true)
   useEffect(() => {
     console.log(bar)
     const val = Cookies.get('x-access')
@@ -48,6 +50,7 @@ export default function App() {
         setOrg(token.user_role);
         setNav(token.user_role);
         setLogin(true);
+        setBank(token.user_bank)
       }
       else {
         setLogin(false)
@@ -70,14 +73,18 @@ export default function App() {
   const classes = useStyles();
   return (
     <BrowserRouter>
-      <AuthApi.Provider value={{ isLoggedin, setLogin }}>
-        <ProgressBarContext.Provider value={{ bar, setBar }}>
-          <NavProps.Provider value={{ nav, setNav }}>
-            <Navbar />
-            <Routes org={org} />
-          </NavProps.Provider>
-        </ProgressBarContext.Provider>
-      </AuthApi.Provider>
+      <ThemeProvider theme={theme}>
+        <BankApi.Provider value={{ bank, setBank }} >
+          <AuthApi.Provider value={{ isLoggedin, setLogin }}>
+            <ProgressBarContext.Provider value={{ bar, setBar }}>
+              <NavProps.Provider value={{ nav, setNav }}>
+                <Navbar />
+                <Routes org={org} />
+              </NavProps.Provider>
+            </ProgressBarContext.Provider>
+          </AuthApi.Provider>
+        </BankApi.Provider>
+      </ThemeProvider>
     </BrowserRouter >
   )
 }
@@ -98,8 +105,8 @@ const Routes = (props) => {
           <WishList setNav={nav.setNav} />
         </Protected>
       </Route>
-      <Route exact path="/add-product" >
-        <AddProduct />
+      <Route exact path="/my-product" >
+        <MyProduct />
       </Route>
       <Route exact path="/cart" >
         <Protected isLoggedin={auth.isLoggedin}>

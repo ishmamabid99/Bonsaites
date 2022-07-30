@@ -1,6 +1,28 @@
 const User = require("../models/User")
 const Product = require('../models/Product');
 const Organization = require("../models/Organization");
+module.exports.updateBank = async (req, res) => {
+    try {
+        const org = await Organization.findById(req.user.user_id);
+        if (org.bank !== true) {
+            org.bank = true;
+        }
+        const token = jwt.sign({
+            user_id: org._id,
+            user_email: org.email,
+            user_phone: org.phone,
+            user_bank: org.bank,
+            user_role: "ORG"
+        }, process.env.TOKEN_KEY, {
+            expiresIn: '2h'
+        })
+        org.token = token;
+        return res.status(200).json(org)
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
 module.exports.addProduct = async (req, res) => {
     try {
         const user_data = req.user;
@@ -44,7 +66,7 @@ module.exports.addProduct = async (req, res) => {
             .populate('products')
             .exec((err, org) => {
                 console.log("Org" + org)//id pathaite hobe
-                
+
             })
     }
     catch (err) {

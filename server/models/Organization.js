@@ -17,6 +17,12 @@ const organizationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    bank:{
+        type:Boolean,
+        required:true,
+        default:false
+    }
+    ,
     products: [{
         type: Schema.Types.ObjectId,
         ref: "Product"

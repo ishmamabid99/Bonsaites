@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
         height: "auto",
         width: "auto",
         opacity: "0.8",
-        paddingBottom:"20rem"
+        paddingBottom:"30rem"
     },
     typo: {
         fontFamily: 'Montserrat',

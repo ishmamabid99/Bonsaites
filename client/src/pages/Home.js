@@ -1,32 +1,43 @@
-import React from 'react'
-import OrgHome from './OrgHome';
-import Cookies from 'js-cookie';
+import React, { useContext, useEffect, useState } from 'react'
+import Cookies from 'js-cookie'
 import jwt_decode from 'jwt-decode'
-import Landing from './Landing';
-export default function Home(props) {
-    console.log(props.org);
-    const check = Cookies.get('x-access')
-    if (check) {
-        const token = jwt_decode(check);
-        const role = token.user_role
-        if (role === "ORG") {
-            return <OrgHome />
+import OrgHome from './OrgHome'
+import Landing from './Landing'
+import Bank from './Bank'
+import BankApi from '../contexts/BankApi'
+export default function Home() {
+    const [user_role, setRole] = useState(null);
+    const bank = useContext(BankApi)
+    const [access, setAccess] = useState(false)
+    useEffect(() => {
+        if (Cookies.get('x-access')) {
+            const { user_role, user_bank, user_name } = jwt_decode(Cookies.get('x-access'));
+            setRole(user_role);
+            setAccess(true)
         }
-        else if (role === 'REGULAR') {
-            return (
-                <Landing />
-            )
 
-        }
-        else {
-            return (
+    }, [bank])
+
+    return (
+        <>
+            {access ?
+                <>
+                    {bank === true ?
+                        <>
+                            {user_role === "ORG" ?
+                                <OrgHome />
+                                :
+                                <Landing />
+                            }
+                        </>
+                        :
+
+                        <Bank />
+                    }
+                </>
+                :
                 <Landing />
-            )
-        }
-    }
-    else {
-        return (
-            <Landing />
-        )
-    }
+            }
+        </>
+    )
 }

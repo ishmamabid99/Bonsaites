@@ -6,6 +6,7 @@ import AuthApi from '../contexts/AuthApi';
 import { loginUser } from '../functions/postData';
 import jwt_decode from 'jwt-decode'
 import { useHistory } from 'react-router-dom';
+import BankApi from '../contexts/BankApi';
 const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: theme.spacing(30)
@@ -55,6 +56,7 @@ export default function Login(props) {
     const classes = useStyles()
     const history = useHistory();
     const auth = useContext(AuthApi)
+    const bank = useContext(BankApi)
     const [data, setData] = useState(null);
     const [check, setCheck] = useState(false)
     const theme = createTheme({
@@ -88,6 +90,8 @@ export default function Login(props) {
             if (val.exp * 1000 > date.getTime()) {
                 Cookies.set('x-access', token);
                 auth.setLogin(true);
+                console.log(data.user_bank);
+                bank.setBank(data.user_bank)
                 history.push('/')
 
             }

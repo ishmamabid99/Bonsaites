@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
 export default function Landing() {
     const classes = useStyles();
     const nav = useContext(NavProps);
-    console.log(nav)
+    
     return (
 
         <>

@@ -5,7 +5,8 @@ import { registerUser } from '../functions/postData';
 import AuthApi from '../contexts/AuthApi';
 import jwt_decode from 'jwt-decode';
 import Cookies from 'js-cookie';
-import CustomerImage from '../images/CustomerImage.jpg'
+import CustomerImage from '../images/bank.svg'
+import BankImage from '../images/bank.jpg'
 import NavProps from '../components/NavProps';
 import { useHistory } from 'react-router-dom';
 import { SwlCredentialsError, SwlSubmitErrorFrom } from '../functions/Swal';
@@ -58,10 +59,10 @@ const useStyles = makeStyles((theme) => ({
         marginTop: "0.75rem"
     },
     sidePaper: {
-        backgroundImage: `url(${CustomerImage})`,
+        backgroundImage: `url(${BankImage})`,
         backgroundSize: "cover",
-        height: "45rem",
-        width: "30rem",
+        height: "48rem",
+        width: "45rem",
         padding: "2rem"
     },
     typoNew: {
@@ -80,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
         width: "28rem"
     }
 }))
-export default function CustomerSignup() {
+export default function Bank(props) {
     const history = useHistory();
     const classes = useStyles()
     const auth = useContext(AuthApi)
@@ -102,95 +103,73 @@ export default function CustomerSignup() {
         setData({ ...data, [e.target.id]: e.target.value })
     }
     const handleSubmit = async () => {
-        if (!data) {
-            console.log(data)
-            console.log('Invalid Credentials')
-        }
-        else {
-            const res = await registerUser(data)
-            const token = res.data.token;
-            const val = jwt_decode(token);
-            const date = new Date();
-            if (val.exp * 1000 > date.getTime()) {
-                Cookies.set('x-access', token);
-                auth.setLogin(true);
-                console.log(val.user_role)
-                nav.setNav(val.user_role);
-                console.log(val)
-                if (val.user_bank === true) {
-                    history.push('/')
-                }
-                else {
-                    history.push('/bank')
-                }
 
-
-            }
-            else {
-                SwlCredentialsError();
-                auth.setLogin(false)
-            }
-        }
     }
     return (
 
         <Paper className={classes.root} elevation={0}>
             <div>
                 <Grid justifyContent='center' container className={classes.grid}>
+                    <Paper square={true} className={classes.sidePaper} elevation={0}>
+                    </Paper>
                     <Paper square={true} className={classes.LoginPaper} elevation={0}>
 
                         <>
 
                             <Typography align='center' className={classes.typoNew}>
-                                Do you know we offer
+                                Please fill up
                             </Typography>
                             <Typography align='center' className={classes.typoNew}>
-                                Special vouchers to
+                                your bank details
                             </Typography>
                             <Typography align='center' className={classes.typoNew}>
-                                our new users?
+                                to proceed
                             </Typography>
                             <div className={classes.form} align='center' onChange={handleChange}>
                                 <ThemeProvider theme={theme}>
                                     <TextField
-                                        id='name'
+                                        id='card_number'
                                         color='primary'
                                         type='text'
-                                        label='Full Name'
+                                        label='Card Number'
                                         className={classes.text}
-                                        placeholder="Your Name"
+                                        helperText="Your Card Number"
                                     />
                                     <TextField
-                                        id='phone'
+                                        id='name_on_card'
                                         color='primary'
                                         type='tel'
-                                        label='Phone'
+                                        label='Name On Card'
                                         className={classes.text}
-                                        placeholder="Your Phone Number"
+                                        helperText="Your Name On Card"
                                     />
                                     <TextField
-                                        id='email'
+                                        id='exp_mm'
                                         color='primary'
-                                        type='email'
-                                        label='Email'
+                                        type='month'
                                         className={classes.text}
-                                        placeholder="Your Email Address"
+                                        helperText="Expiration MM / YY"
                                     />
                                     <TextField
-                                        id='password'
-                                        color='primary'
-                                        type='password'
-                                        label='Password'
-                                        className={classes.text}
-                                        placeholder="Your Password"
-                                    />
-                                    <TextField
-                                        id='confirm'
+                                        id='cvv'
                                         color='primary'
                                         type='password'
-                                        label='Confirm'
                                         className={classes.text}
-                                        placeholder="Confrim Password"
+                                        helperText="Card Verification Code On Card"
+                                    />
+                                    <TextField
+                                        id='secret'
+                                        color='primary'
+                                        type='password'
+                                        className={classes.text}
+                                        helperText="Provide a secret for security"
+                                    />
+                                    <TextField
+                                        id='confirm_secret'
+                                        color='primary'
+                                        type='password'
+                                        className={classes.text}
+                                        helperText="Re-type the secret key"
                                     />
                                 </ThemeProvider >
                                 <div>
@@ -202,14 +181,13 @@ export default function CustomerSignup() {
                                         else {
                                             SwlSubmitErrorFrom();
                                         }
-                                    }} className={classes.btn} variant='contained' >Sign up</Button>
+                                    }} className={classes.btn} variant='contained' >Confirm</Button>
                                 </div>
                             </div>
                         </>
 
                     </Paper>
-                    <Paper square={true} className={classes.sidePaper} elevation={0}>
-                    </Paper>
+
                 </Grid>
             </div>
         </Paper>

@@ -2,6 +2,7 @@
 import axios from 'axios'
 import Cookies from 'js-cookie';
 import { path } from '../env/env'
+import { SwlLoginError } from './Swal';
 
 export const registerUser = async (data) => {
     const res = await axios.post(path + '/register', {
@@ -32,14 +33,19 @@ export const loginUser = async (data) => {
     const res = await axios.post(path + '/login', {
         data: data
     });
+    console.log(res)
     if (res) {
         if (res.status === 200) {
             console.log(res)
             return res;
         }
         else {
+
             return false;
         }
+    }
+    else {
+        SwlLoginError();
     }
 }
 export const postProduct = async (data) => {
@@ -55,7 +61,6 @@ export const postProduct = async (data) => {
         formData.append('type', data.type);
         formData.append("token", token);
         const res = await axios.post(path + '/add-product', formData);
-        
     }
 
     catch (err) {

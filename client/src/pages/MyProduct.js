@@ -10,7 +10,8 @@ export default function AddProduct() {
         if (decode.user_role === "ORG") {
             return (
 
-                <FormFile />
+                <>
+                </>
 
             )
         }
