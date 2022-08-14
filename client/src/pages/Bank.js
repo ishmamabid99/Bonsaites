@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { createTheme } from '@material-ui/core/styles';
 import { Button, Grid, makeStyles, Paper, TextField, ThemeProvider, Typography } from '@material-ui/core';
-import { registerUser } from '../functions/postData';
+import { addCard, registerUser } from '../functions/postData';
 import AuthApi from '../contexts/AuthApi';
 import jwt_decode from 'jwt-decode';
 import Cookies from 'js-cookie';
@@ -10,6 +10,7 @@ import BankImage from '../images/bank.jpg'
 import NavProps from '../components/NavProps';
 import { useHistory } from 'react-router-dom';
 import { SwlCredentialsError, SwlSubmitErrorFrom } from '../functions/Swal';
+import BankApi from '../contexts/BankApi';
 const useStyles = makeStyles((theme) => ({
     root: {
         justifyContent: "center",
@@ -86,6 +87,7 @@ export default function Bank(props) {
     const classes = useStyles()
     const auth = useContext(AuthApi)
     const nav = useContext(NavProps);
+    const bank = useContext(BankApi)
     const theme = createTheme({
         palette: {
             primary: {
@@ -104,6 +106,13 @@ export default function Bank(props) {
     }
     const handleSubmit = async () => {
 
+        const res = await addCard(data);
+        console.log(res);
+        if (res) {
+            Cookies.set('x-access', res)
+            bank.setBank(true);
+            history.push('/')
+        }
     }
     return (
 
@@ -174,11 +183,12 @@ export default function Bank(props) {
                                 </ThemeProvider >
                                 <div>
                                     <Button onClick={() => {
-                                        if (data && data.name && data.email && data.password === data.confirm && data.phone) {
-                                            handleSubmit()
-                                                ;
+                                        if (data && data.card_number && data.name_on_card && data.exp_mm && data.cvv && data.secret === data.confirm_secret && data.cvv.length <= 6) {
+                                            console.log(data)
+                                            handleSubmit();
                                         }
                                         else {
+
                                             SwlSubmitErrorFrom();
                                         }
                                     }} className={classes.btn} variant='contained' >Confirm</Button>

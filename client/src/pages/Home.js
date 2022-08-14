@@ -5,26 +5,29 @@ import OrgHome from './OrgHome'
 import Landing from './Landing'
 import Bank from './Bank'
 import BankApi from '../contexts/BankApi'
+import AuthApi from '../contexts/AuthApi'
+import NavProps from '../components/NavProps'
 export default function Home() {
-    const [user_role, setRole] = useState(null);
     const bank = useContext(BankApi)
-    const [access, setAccess] = useState(false)
+    const auth = useContext(AuthApi);
+    const nav = useContext(NavProps)
+    const [access, setAccess] = useState(false);
     useEffect(() => {
         if (Cookies.get('x-access')) {
-            const { user_role, user_bank, user_name } = jwt_decode(Cookies.get('x-access'));
-            setRole(user_role);
+            const { user_bank } = jwt_decode(Cookies.get('x-access'));
+            bank.setBank(user_bank);
             setAccess(true)
         }
 
-    }, [bank])
-
+    }, [auth, nav, bank])
+    console.log(bank)
     return (
         <>
             {access ?
                 <>
-                    {bank === true ?
+                    {bank.bank === true ?
                         <>
-                            {user_role === "ORG" ?
+                            {nav.nav === "ORG" ?
                                 <OrgHome />
                                 :
                                 <Landing />

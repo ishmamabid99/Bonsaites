@@ -1,8 +1,9 @@
 
 import axios from 'axios'
 import Cookies from 'js-cookie';
+import jwtDecode from 'jwt-decode';
 import { path } from '../env/env'
-import { SwlLoginError } from './Swal';
+import { SwlCredentialsError, SwlLoginError, SwlNoAccountError } from './Swal';
 
 export const registerUser = async (data) => {
     const res = await axios.post(path + '/register', {
@@ -40,7 +41,6 @@ export const loginUser = async (data) => {
             return res;
         }
         else {
-
             return false;
         }
     }
@@ -65,5 +65,24 @@ export const postProduct = async (data) => {
 
     catch (err) {
         console.log(err)
+    }
+}
+export const addCard = async (data) => {
+    try {
+        const token = Cookies.get('x-access');
+        const res = await axios.post(path + "/add-card", data, {
+            headers: {
+                authorization: token
+            }
+        });
+        if (res && res.status === 200) {
+            return res.data;
+        }
+        else {
+            return false;
+        }
+    }
+    catch (err) {
+        console.log(err);
     }
 }

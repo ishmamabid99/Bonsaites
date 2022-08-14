@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+
+
 const cardSchema = new mongoose.Schema({
 
     ref_id: {
@@ -17,13 +19,9 @@ const cardSchema = new mongoose.Schema({
     CVV: {
         type: String,
         required: true,
-        maxLength: 6
+     
     },
-    MM: {
-        type: String,
-        required: true
-    },
-    YY: {
+    MMYY: {
         type: String,
         required: true
     },

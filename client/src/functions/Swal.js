@@ -20,6 +20,13 @@ export const SwlCredentialsError = () => {
         text: "Already account exists!.."
     })
 }
+export const SwlNoAccountError = () => {
+    Swal.fire({
+        icon:"error",
+        title: 'Oops...',
+        text: "Please create an account!.."
+    })
+}
 export const SwlSuccess = () => {
     Swal.fire({
         icon: "success",

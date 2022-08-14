@@ -22,6 +22,7 @@ import { green } from '@material-ui/core/colors';
 import ProductDetails from './pages/ProductDetails';
 import Bank from './pages/Bank';
 import BankApi from './contexts/BankApi';
+import AdminPage from './pages/AdminPage';
 const useStyles = makeStyles(theme => ({
   bar: {
     position: "absolute",
@@ -80,6 +81,7 @@ export default function App() {
               <NavProps.Provider value={{ nav, setNav }}>
                 <Navbar />
                 <Routes org={org} />
+                <Route exact path='/admin' component={AdminPage} />
               </NavProps.Provider>
             </ProgressBarContext.Provider>
           </AuthApi.Provider>

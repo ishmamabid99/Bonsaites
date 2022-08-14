@@ -19,10 +19,13 @@ import Cookies from 'js-cookie';
 import AuthApi from '../contexts/AuthApi';
 import FormFile from '../pages/FormFile';
 import BankApi from '../contexts/BankApi';
+import { SwlNoAccountError } from '../functions/Swal';
 const useStyles = makeStyles((theme) => ({
     root: {
+        display: "flex",
         flexGrow: 1,
     },
+
     logo: {
 
         fontFamily: "Laila",
@@ -33,13 +36,14 @@ const useStyles = makeStyles((theme) => ({
     rainbow: {
         fontFamily: "Laila",
         fontSize: "1.75rem",
-        width: "9rem",
+        width: "20rem",
         background: "linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);  -webkit-background-clip: text",
         color: "transparent"
     },
     nav: {
-        height: "auto"
-        , background: '#fff'
+        height: "auto",
+        background: '#fff',
+        zIndex: theme.zIndex.drawer + 1,
     },
     div1: {
         flexGrow: 2
@@ -123,7 +127,7 @@ export default function Navbar() {
     const [check, setCheck] = useState(false)
     const [modal, setModal] = useState(false);
     const [postModal, setPostModal] = useState(false)
-    const bank = useContext(BankApi)
+    const bank = useContext(BankApi);
     const classes = useStyles();
     console.log(auth)
     const theme = createTheme({
@@ -144,7 +148,6 @@ export default function Navbar() {
         setData({ ...data, [e.target.id]: e.target.value })
     }
     const handleSubmit = async () => {
-        console.log(data)
         if (data.email && data.password) {
             console.log(data)
             console.log(check)
@@ -155,180 +158,230 @@ export default function Navbar() {
                 data.user_role = "ORG"
             }
             const res = await loginUser(data);
-            const token = res.data.token;
-            const val = jwt_decode(token);
-
-            const date = new Date();
-            console.log(val)
-            if (val.exp * 1000 > date.getTime()) {
-                Cookies.set('x-access', token);
-                setModal(false);
-                console.log(val.user_role)
-                auth.setLogin(true);
-                nav.setNav(val.user_role);
-                bank.setBank(data.bank)
-                history.push('/');
+            console.log(res);
+            if (res) {
+                const token = res.data.token;
+                const val = jwt_decode(token);
+                const date = new Date();
+                console.log(val)
+                if (val.exp * 1000 > date.getTime()) {
+                    Cookies.set('x-access', token);
+                    setModal(false);
+                    console.log(val.user_role)
+                    auth.setLogin(true);
+                    nav.setNav(val.user_role);
+                    bank.setBank(val.user_bank)
+                    history.push('/');
+                }
+                else {
+                    auth.setLogin(false)
+                }
             }
             else {
-                auth.setLogin(false)
+                setModal(false);
+                SwlNoAccountError();
             }
         }
         else {
             console.log("Invalid credentials")
         }
     }
-    console.log(nav)
+    // console.log(nav)
     return (
         <div className={classes.root}>
             <AppBar className={classes.nav} position="static">
-                <Toolbar>
-                    <div className={classes.div1}>
-                        <div style={{ width: "auto" }}>
-                            <NavLink to='/' >
-                                <div className={classes.rainbow}>
-                                    EShoppers
-                                </div>
-                            </NavLink>
+                {nav.nav === "LANDING" || nav.nav === "REGULAR" || nav.nav === "ORG" ?
+                    <Toolbar>
+                        <div className={classes.div1}>
+                            <div style={{ width: "auto" }}>
+                                <NavLink to='/' >
+                                    <div className={classes.rainbow}>
+                                        EShoppers
+                                    </div>
+                                </NavLink>
+                            </div>
                         </div>
-                    </div>
-                    {bank.bank === true ?
-                        <>
-                            {nav.nav === "REGULAR" ?
-                                <div align='right' className={classes.div2}>
+                        {bank.bank === true ?
+                            <>
+                                {nav.nav === "REGULAR" ?
+                                    <div align='right' className={classes.div2}>
+                                        <ThemeProvider theme={theme}>
+                                            <IconButton color='secondary' >
+                                                <SearchIcon className={classes.icons} />
+                                            </IconButton>
+                                            <NavLink to='cart'>
+                                                <IconButton color='secondary'>
+                                                    <ShoppingCartIcon className={classes.icons} />
+                                                </IconButton>
+                                            </NavLink>
+                                            <NavLink to='profile'>
+                                                <IconButton color='secondary'>
+                                                    <AccountCircleIcon className={classes.icons} />
+                                                </IconButton>
+                                            </NavLink>
+                                            <NavLink to='wishlist'>
+                                                <IconButton color='secondary'>
+                                                    <FavoriteIcon className={classes.icons} />
+                                                </IconButton>
+                                            </NavLink>
+                                        </ThemeProvider>
+                                    </div>
+                                    :
+                                    <></>
+                                }
+                                {nav.nav === "ORG" ?
+
                                     <ThemeProvider theme={theme}>
-                                        <IconButton color='secondary' >
-                                            <SearchIcon className={classes.icons} />
-                                        </IconButton>
-                                        <NavLink to='cart'>
-                                            <IconButton color='secondary'>
-                                                <ShoppingCartIcon className={classes.icons} />
-                                            </IconButton>
-                                        </NavLink>
-                                        <NavLink to='profile'>
-                                            <IconButton color='secondary'>
-                                                <AccountCircleIcon className={classes.icons} />
-                                            </IconButton>
-                                        </NavLink>
-                                        <NavLink to='wishlist'>
-                                            <IconButton color='secondary'>
-                                                <FavoriteIcon className={classes.icons} />
-                                            </IconButton>
-                                        </NavLink>
-                                    </ThemeProvider>
-                                </div>
-                                :
-                                <></>
-                            }
-                            {nav.nav === "ORG" ?
+                                        <Modal open={postModal}
+                                            onClose={() => setPostModal(false)}
+                                            className={classes.myModal}
+                                        >
+                                            <Paper align='center' elevation={3} style={{ width: '65rem', height: "50rem" }}>
+                                                <Grid container justifyContent='space-around'>
+                                                    <Paper className={classes.postModal} elevation={0} >
+                                                    </Paper>
+                                                    <Paper className={classes.anotherPaper}>
+                                                        <ThemeProvider theme={theme}>
+                                                            <FormFile />
+                                                        </ThemeProvider>
+                                                    </Paper>
+                                                </Grid>
 
-                                <ThemeProvider theme={theme}>
-                                    <Modal open={postModal}
-                                        onClose={() => setPostModal(false)}
-                                        className={classes.myModal}
-                                    >
-                                        <Paper align='center' elevation={3} style={{ width: '65rem', height: "50rem" }}>
-                                            <Grid container justifyContent='space-around'>
-                                                <Paper className={classes.postModal} elevation={0} >
-                                                </Paper>
-                                                <Paper className={classes.anotherPaper}>
-                                                    <ThemeProvider theme={theme}>
-                                                        <FormFile />
-                                                    </ThemeProvider>
-                                                </Paper>
-                                            </Grid>
-
-                                        </Paper>
-                                    </Modal>
-                                    <div align='right' className={classes.div2}>
-                                        <ThemeProvider theme={theme}>
-                                            <ButtonGroup variant='text'>
-                                                <Button onClick={() => { setPostModal(true) }} className={classes.typo}>
-                                                    <Typography className={classes.btn}>ADD PRODUCT</Typography>
-                                                </Button>
-                                                <NavLink to='/my-product'>
-                                                    <Button className={classes.typo}>
-                                                        <Typography className={classes.btn}>MY PRODUCTS</Typography>
+                                            </Paper>
+                                        </Modal>
+                                        <div align='right' className={classes.div2}>
+                                            <ThemeProvider theme={theme}>
+                                                <ButtonGroup variant='text'>
+                                                    <Button onClick={() => { setPostModal(true) }} className={classes.typo}>
+                                                        <Typography className={classes.btn}>ADD PRODUCT</Typography>
                                                     </Button>
-                                                </NavLink>'
+                                                    <NavLink to='/my-product'>
+                                                        <Button className={classes.typo}>
+                                                            <Typography className={classes.btn}>MY PRODUCTS</Typography>
+                                                        </Button>
+                                                    </NavLink>'
 
-                                                <Button onClick={() => {
-                                                    auth.setLogin(false);
-                                                    nav.setNav("LANDING");
-                                                    Cookies.remove('x-access');
-                                                    history.push('/')
-                                                }} className={classes.typo}>
-                                                    <Typography className={classes.btn}>Logout</Typography>
-                                                </Button>
+                                                    <Button onClick={() => {
+                                                        auth.setLogin(false);
+                                                        nav.setNav("LANDING");
+                                                        Cookies.remove('x-access');
+                                                        history.push('/')
+                                                    }} className={classes.typo}>
+                                                        <Typography className={classes.btn}>Logout</Typography>
+                                                    </Button>
 
-                                            </ButtonGroup>
-                                        </ThemeProvider>
-                                    </div>
-                                </ThemeProvider>
-                                :
-                                <></>
-                            }
-                            {nav.nav === "LANDING" ?
+                                                </ButtonGroup>
+                                            </ThemeProvider>
+                                        </div>
+                                    </ThemeProvider>
+                                    :
+                                    <></>
+                                }
+                                {nav.nav === "LANDING" ?
 
-                                <>
-                                    <Modal
-                                        className={classes.myModal}
-                                        open={modal}
-                                        onClose={() => { setModal(false) }}
-                                    >
-                                        <Paper align='center' elevation={3}>
-                                            <Grid container justifyContent='space-around'>
-                                                <Paper className={classes.modal} elevation={0} >
-                                                </Paper>
-                                                <Paper className={classes.anotherPaper}>
-                                                    <ThemeProvider theme={theme}>
-                                                        <div onChange={(e) => handleChange(e)} align='center' style={{ marginTop: "10rem" }} elevation={0}>
-                                                            <Typography className={classes.formTypo}>
-                                                                Good to see you
-                                                            </Typography>
-                                                            <div style={{ marginTop: "4rem" }}>
-                                                                <TextField variant='standard' color='secondary' className={classes.textFeild} id='email' label='Email' type='email' placeholder='Enter your email please' />
-                                                                <TextField variant='standard' color='secondary' className={classes.textFeild} id='password' label='Password' type='password' placeholder='Enter your email please' />
+                                    <>
+                                        <Modal
+                                            className={classes.myModal}
+                                            open={modal}
+                                            onClose={() => { setModal(false) }}
+                                        >
+                                            <Paper align='center' elevation={3}>
+                                                <Grid container justifyContent='space-around'>
+                                                    <Paper className={classes.modal} elevation={0} >
+                                                    </Paper>
+                                                    <Paper className={classes.anotherPaper}>
+                                                        <ThemeProvider theme={theme}>
+                                                            <div onChange={(e) => handleChange(e)} align='center' style={{ marginTop: "10rem" }} elevation={0}>
+                                                                <Typography className={classes.formTypo}>
+                                                                    Good to see you
+                                                                </Typography>
+                                                                <div style={{ marginTop: "4rem" }}>
+                                                                    <TextField variant='standard' color='secondary' className={classes.textFeild} id='email' label='Email' type='email' placeholder='Enter your email please' />
+                                                                    <TextField variant='standard' color='secondary' className={classes.textFeild} id='password' label='Password' type='password' placeholder='Enter your email please' />
+                                                                </div>
+                                                                <div align='center' style={{ marginTop: '1.5rem' }}>
+                                                                    <FormControlLabel
+                                                                        control={<Checkbox value={check} checked={check} onChange={handleCheck} id='role' />}
+                                                                        label={<Typography
+                                                                            className={classes.check}
+                                                                        >Are you a product supplier?</Typography>}
+                                                                    />
+                                                                </div>
+                                                                <Button onClick={handleSubmit} className={classes.loginBtn} size='large'>
+                                                                    <Typography className={classes.loginTypo} >Login</Typography>
+                                                                </Button>
                                                             </div>
-                                                            <div align='center' style={{ marginTop: '1.5rem' }}>
-                                                                <FormControlLabel
-                                                                    control={<Checkbox value={check} checked={check} onChange={handleCheck} id='role' />}
-                                                                    label={<Typography
-                                                                        className={classes.check}
-                                                                    >Are you a product supplier?</Typography>}
-                                                                />
-                                                            </div>
-                                                            <Button onClick={handleSubmit} className={classes.loginBtn} size='large'>
-                                                                <Typography className={classes.loginTypo} >Login</Typography>
-                                                            </Button>
-                                                        </div>
-                                                    </ThemeProvider>
-                                                </Paper>
-                                            </Grid>
+                                                        </ThemeProvider>
+                                                    </Paper>
+                                                </Grid>
 
-                                        </Paper>
-                                    </Modal>
-                                    <div align='right' className={classes.div2}>
-                                        <ThemeProvider theme={theme}>
-                                            <ButtonGroup variant='text'>
-                                                <Button onClick={() => { setModal(true) }} className={classes.typo}>
-                                                    <Typography className={classes.btn}>Login</Typography>
-                                                </Button>
+                                            </Paper>
+                                        </Modal>
+                                        <div align='right' className={classes.div2}>
+                                            <ThemeProvider theme={theme}>
+                                                <ButtonGroup variant='text'>
+                                                    <Button onClick={() => { setModal(true) }} className={classes.typo}>
+                                                        <Typography className={classes.btn}>Login</Typography>
+                                                    </Button>
 
-                                                <Button href='/signup' className={classes.typo}>
-                                                    <Typography className={classes.btn}>signup</Typography>
-                                                </Button>
-                                            </ButtonGroup>
-                                        </ThemeProvider>
+                                                    <Button href='/signup' className={classes.typo}>
+                                                        <Typography className={classes.btn}>signup</Typography>
+                                                    </Button>
+                                                </ButtonGroup>
+                                            </ThemeProvider>
+                                        </div>
+                                    </>
+                                    :
+                                    <></>
+                                }
+                            </>
+                            :
+                            null
+                        }
+
+                    </Toolbar>
+                    :
+                    <>
+                        {nav.nav === "ADMIN" ?
+                            <Toolbar>
+                                <div className={classes.div1}>
+                                    <div style={{ width: "auto" }}>
+                                        <NavLink to='/admin' >
+                                            <div className={classes.rainbow}>
+                                                EShoppers Admin
+                                            </div>
+                                        </NavLink>
                                     </div>
-                                </>
-                                :
-                                <></>
-                            }
-                        </>
-                        :
-                        null
-                    }
-                </Toolbar>
+                                </div>
+                            </Toolbar>
+                            :
+                            null
+
+                        }
+                        {nav.nav === "ADMINLOGGED" ?
+
+                            <Toolbar>
+                                <div className={classes.div1}>
+                                    <div style={{ width: "auto" }}>
+                                        <NavLink to='/admin' >
+                                            <div className={classes.rainbow}>
+                                                EShoppers Admin
+                                            </div>
+                                        </NavLink>
+                                    </div>
+                                </div>
+                                <div align='right' className={classes.div2}>
+
+                                    <Button className={classes.typo}>
+                                        <Typography className={classes.btn}>Logout</Typography>
+                                    </Button>
+                                </div>
+                            </Toolbar>
+                            :
+                            null
+                        }
+                    </>
+                }
             </AppBar>
         </div >
     );

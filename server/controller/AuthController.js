@@ -73,52 +73,64 @@ module.exports.Login = async (req, res) => {
     try {
         const { email, password, user_role } = req.body.data;
         if (!(email && password)) {
-            res.status(400).send("All input is required")
+            res.status(203).send("All input is required")
         }
         console.log(user_role)
         if (user_role === "REGULAR") {
             const user = await User.findOne({ email });
-            const check = await bcrypt.compare(password, user.password);
-            if (user && check) {
-                const token = jwt.sign({
-                    user_id: user._id,
-                    user_email: user.email,
-                    user_phone: user.phone,
-                    user_bank: user.bank,
-                    user_role: "REGULAR"
-                }, process.env.TOKEN_KEY, {
-                    expiresIn: '2h'
-                })
-                user.token = token;
-                console.log(user)
-                res.status(200).json(user);
+            if (user) {
+                const check = await bcrypt.compare(password, user.password);
+                if (user && check) {
+                    const token = jwt.sign({
+                        user_id: user._id,
+                        user_email: user.email,
+                        user_phone: user.phone,
+                        user_bank: user.bank,
+                        user_role: "REGULAR"
+                    }, process.env.TOKEN_KEY, {
+                        expiresIn: '2h'
+                    })
+                    user.token = token;
+                    console.log(user)
+                    res.status(200).json(user);
+                }
+                else {
+                    res.status(203).send('Invalid Credentials')
+                }
             }
             else {
-                res.status(400).send('Invalid Credentials')
+                res.status(203).send('Invalid Credentials')
             }
         }
         else if (user_role === "ORG") {
             console.log('wie')
             const user = await Organization.findOne({ email });
-            const check = await bcrypt.compare(password, user.password);
-            if (user && check) {
-                const token = jwt.sign({
-                    user_id: user._id,
-                    user_email: user.email,
-                    user_phone: user.phone,
-                    user_bank: user.bank,
-                    user_role: "ORG"
-                }, process.env.TOKEN_KEY, {
-                    expiresIn: '2h'
-                });
-                user.token = token;
-                console.log(user);
-                res.status(200).json(user)
 
+            if (user) {
+                const check = await bcrypt.compare(password, user.password);
+                if (check) {
+                    const token = jwt.sign({
+                        user_id: user._id,
+                        user_email: user.email,
+                        user_phone: user.phone,
+                        user_bank: user.bank,
+                        user_role: "ORG"
+                    }, process.env.TOKEN_KEY, {
+                        expiresIn: '2h'
+                    });
+                    user.token = token;
+                    console.log(user);
+                    res.status(200).json(user)
+
+                }
+                else {
+                    console.log('hoynai')
+                    res.status(203).send("Invalid Credentials")
+                }
             }
             else {
                 console.log('hoynai')
-                res.status(400).send("Invalid Credentials")
+                res.status(203).send("Invalid Credentials")
             }
         }
 

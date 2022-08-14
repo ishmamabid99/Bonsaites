@@ -9,6 +9,7 @@ import CustomerImage from '../images/CustomerImage.jpg'
 import NavProps from '../components/NavProps';
 import { useHistory } from 'react-router-dom';
 import { SwlCredentialsError, SwlSubmitErrorFrom } from '../functions/Swal';
+import BankApi from '../contexts/BankApi';
 const useStyles = makeStyles((theme) => ({
     root: {
         justifyContent: "center",
@@ -85,6 +86,7 @@ export default function CustomerSignup() {
     const classes = useStyles()
     const auth = useContext(AuthApi)
     const nav = useContext(NavProps);
+    const bank = useContext(BankApi)
     const theme = createTheme({
         palette: {
             primary: {
@@ -114,16 +116,9 @@ export default function CustomerSignup() {
             if (val.exp * 1000 > date.getTime()) {
                 Cookies.set('x-access', token);
                 auth.setLogin(true);
-                console.log(val.user_role)
                 nav.setNav(val.user_role);
-                console.log(val)
-                if (val.user_bank === true) {
-                    history.push('/')
-                }
-                else {
-                    history.push('/bank')
-                }
-
+                bank.setBank(val.user_bank);
+                history.push('/')
 
             }
             else {

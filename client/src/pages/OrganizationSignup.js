@@ -8,6 +8,8 @@ import Cookies from 'js-cookie';
 import OrgSign from '../images/OrgSign.jpg'
 import NavProps from '../components/NavProps';
 import { useHistory } from 'react-router-dom';
+import { SwlCredentialsError } from '../functions/Swal';
+import BankApi from '../contexts/BankApi';
 const useStyles = makeStyles((theme) => ({
     root: {
         justifyContent: "center",
@@ -16,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         height: "auto",
         width: "auto",
         opacity: "0.8",
-        paddingBottom:"30rem"
+        paddingBottom: "30rem"
     },
     typo: {
         fontFamily: 'Montserrat',
@@ -69,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
     },
     LoginPaper: {
         padding: "2rem",
-        height:"40rem"
+        height: "40rem"
     },
     grid: {
         paddingTop: "7rem",
@@ -83,6 +85,7 @@ export default function OrganizationSignup() {
     const history = useHistory();
     const classes = useStyles()
     const auth = useContext(AuthApi)
+    const bank = useContext(BankApi);
     const nav = useContext(NavProps);
     const theme = createTheme({
         palette: {
@@ -112,12 +115,13 @@ export default function OrganizationSignup() {
             if (val.exp * 1000 > date.getTime()) {
                 Cookies.set('x-access', token);
                 auth.setLogin(true);
-                console.log(val.user_role)
                 nav.setNav(val.user_role);
+                bank.setBank(val.user_bank);
                 history.push('/')
 
             }
             else {
+                SwlCredentialsError();
                 auth.setLogin(false)
             }
         }
