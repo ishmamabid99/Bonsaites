@@ -1,8 +1,11 @@
 import { Avatar, Button, createTheme, makeStyles, TextField, ThemeProvider, Typography } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
-import React, { useContext, useState } from 'react'
+import Cookies from 'js-cookie';
+import jwtDecode from 'jwt-decode';
+import React, { useContext, useEffect, useState } from 'react'
 import NavProps from '../components/NavProps'
 import { adminEmail, adminPass } from '../env/env';
+import { adminLogin } from '../functions/postData';
 import { SwlCredentialsError, SwlLoginError } from '../functions/Swal';
 import Admin from '../images/Admin.svg'
 import AdminDashboard from './AdminLogged/AdminDashboard';
@@ -53,17 +56,45 @@ export default function AdminPage(props) {
         },
         fontFamily: 'Overpass'
     });
+    useEffect(() => {
+        const val = Cookies.get('admin-access');
+        console.log(val)
+        if (val) {
+            const date = new Date();
+            const token = jwtDecode(val);
+            if (token.exp * 1000 > date.getTime()) {
+
+                setLoginState(true);
+
+            }
+            else {
+                setLoginState(false)
+            }
+        }
+        else {
+            setLoginState(false)
+        }
+    }, [])
     const handleChange = (e) => {
         setData({ ...data, [e.target.id]: e.target.value });
     }
-    const handleSubmit = () => {
-        if (data.adminEmail === adminEmail && data.adminPass === adminPass) {
-            setLoginState(true);
+    const handleSubmit = async () => {
+        if (data.adminEmail && data.adminPass) {
+            const ret = await adminLogin(data);
+            if (ret) {
+                Cookies.set('admin-access', ret)
+                setLoginState(true);
+            }
+            else {
+                setLoginState(false);
+                SwlLoginError();
+            }
         }
         else {
             SwlLoginError()
         }
     }
+
     return (
 
         <ThemeProvider theme={theme}>

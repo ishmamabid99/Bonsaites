@@ -86,3 +86,18 @@ export const addCard = async (data) => {
         console.log(err);
     }
 }
+export const adminLogin = async (data) => {
+    try {
+        const res = await axios.post(path + '/adminlogin', data);
+        console.log(res.data)
+        if (res.status === 200) {
+            return res.data;
+        }
+        else {
+            return false;
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
