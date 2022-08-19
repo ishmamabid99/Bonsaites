@@ -39,3 +39,46 @@ module.exports.getNoUsers = async (req, res) => {
         console.log(err)
     }
 }
+module.exports.getRequests = async (req, res) => {
+    try {
+        const data = await Product.find({});
+        if (data.length >= 1) {
+            const ret = data.filter((datas) => {
+                return !datas.state
+            })
+            res.status(200).json(ret);
+        }
+        else {
+            res.status(203).json("Nothing to show")
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
+
+module.exports.getProductDetails = async (req, res) => {
+    try {
+        const ret = await Product.findById(req.params.id);
+        if (res) {
+            res.status(200).json(ret)
+        }
+        else {
+            res.status(202).json("Nothing was found ")
+        }
+
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+module.exports.updateProduct = async (req, res) => {
+    try {
+        await Product.findByIdAndUpdate(req.body.id, { state: true })
+        res.status(200).json(true);
+    }
+    catch (err) {
+        res.status(203).json(`${err}`)
+        console.log(err)
+    }
+}

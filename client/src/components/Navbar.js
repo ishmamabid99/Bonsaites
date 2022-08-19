@@ -372,7 +372,10 @@ export default function Navbar() {
                                 </div>
                                 <div align='right' className={classes.div2}>
 
-                                    <Button className={classes.typo}>
+                                    <Button onClick={() => {
+                                        Cookies.remove('admin-access')
+                                        window.location.href = '/admin'
+                                    }} className={classes.typo}>
                                         <Typography className={classes.btn}>Logout</Typography>
                                     </Button>
                                 </div>

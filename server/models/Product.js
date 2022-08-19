@@ -30,9 +30,13 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    desc:{
-        type:String,
-        required:true
+    desc: {
+        type: String,
+        required: true
+    },
+    state: {
+        type: Boolean,
+        required: true
     }
 })
 

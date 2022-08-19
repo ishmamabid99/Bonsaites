@@ -1,6 +1,7 @@
 const User = require("../models/User")
 const Product = require('../models/Product');
 const Organization = require("../models/Organization");
+const Card = require("../models/Card");
 module.exports.updateBank = async (req, res) => {
     try {
         const org = await Organization.findById(req.user.user_id);
@@ -23,6 +24,7 @@ module.exports.updateBank = async (req, res) => {
         console.log(err)
     }
 }
+
 module.exports.addProduct = async (req, res) => {
     try {
         const user_data = req.user;
@@ -47,7 +49,8 @@ module.exports.addProduct = async (req, res) => {
                 owner,
                 desc,
                 type,
-                img
+                img,
+                state: false
             });
         }
         else {
@@ -73,4 +76,21 @@ module.exports.addProduct = async (req, res) => {
         console.log(err)
     }
 
+}
+module.exports.getCardDetails = async (req, res) => {
+    try {
+        console.log(req.params._id)
+        const ret = await Card.find({ ref_id: req.params._id });
+        console.log(ret)
+        if (ret) {
+            console.log(ret[0].account_no)
+            res.status(200).json(ret[0].account_no);
+        }
+        else {
+            res.status(203).json("Card Not found")
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
 }

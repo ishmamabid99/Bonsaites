@@ -23,6 +23,7 @@ import ProductDetails from './pages/ProductDetails';
 import Bank from './pages/Bank';
 import BankApi from './contexts/BankApi';
 import AdminPage from './pages/AdminPage';
+import AdminDetails from './pages/ProductDetails';
 const useStyles = makeStyles(theme => ({
   bar: {
     position: "absolute",

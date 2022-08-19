@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import { path } from '../env/env'
 import { SwlCredentialsError, SwlLoginError, SwlNoAccountError } from './Swal';
-
+const adminToken = Cookies.get('admin-access')
 export const registerUser = async (data) => {
     const res = await axios.post(path + '/register', {
         data: data
@@ -92,6 +92,26 @@ export const adminLogin = async (data) => {
         console.log(res.data)
         if (res.status === 200) {
             return res.data;
+        }
+        else {
+            return false;
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+export const updateProduct = async (id) => {
+    try {
+        const res = await axios.post(path + '/adminupdate', {
+            id: id
+        }, {
+            headers: {
+                authorization: adminToken
+            }
+        });
+        if (res.status === 200) {
+            return true;
         }
         else {
             return false;

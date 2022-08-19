@@ -51,7 +51,7 @@ export default function AdminPage(props) {
             },
 
             secondary: {
-                main: '#f44336',
+                main: '#F2F2F2',
             },
         },
         fontFamily: 'Overpass'

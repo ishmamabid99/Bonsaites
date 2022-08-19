@@ -22,7 +22,7 @@ export const SwlCredentialsError = () => {
 }
 export const SwlNoAccountError = () => {
     Swal.fire({
-        icon:"error",
+        icon: "error",
         title: 'Oops...',
         text: "Please create an account!.."
     })
@@ -60,5 +60,19 @@ export const SwlSubmitCartError = () => {
         icon: 'error',
         title: 'Failed...',
         text: 'Please specify the quantity'
+    })
+}
+export const SwlLogin = () => {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Warning...',
+        text: 'Please Login first'
+    })
+}
+export const SwlWhishList = () => {
+    Swal.fire({
+        icon: "warning",
+        title: "Warning...",
+        text: "This feature is not available for suppliers."
     })
 }
