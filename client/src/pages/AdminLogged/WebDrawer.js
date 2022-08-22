@@ -99,7 +99,7 @@ export default function WebDrawer() {
                     </List>
                 </div>
             </Drawer>
-            <main className={classes.content}>
+            <div className={classes.content}>
                 <div className={classes.toolbar} />
                 <>
                     {page === 0 ?
@@ -142,7 +142,7 @@ export default function WebDrawer() {
                     }
                 </>
 
-            </main>
+            </div>
         </div>
     )
 }

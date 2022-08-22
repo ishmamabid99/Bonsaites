@@ -10,7 +10,6 @@ const useStyles = makeStyles(theme => ({
 export default function OrgHome(props) {
     const classes = useStyles();
     const nav = useContext(NavProps)
-    console.log(props)
     return (
         <div className={classes.root}>OrgHome</div>
     )

@@ -4,7 +4,8 @@ const auth = require("../middleware/auth");
 const router = require('express').Router();
 const multer = require('multer');
 const { addCard } = require('../controller/BankController');
-const { getNoUsers, adminLogin, getRequests, getProductDetails, updateProduct } = require('../controller/AdminController');
+const { getNoUsers, adminLogin, getRequests, getProductDetails, updateProduct, deleteProduct } = require('../controller/AdminController');
+const { getLandingData } = require('../controller/LandingController');
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, '../client/public/uploads');
@@ -19,7 +20,7 @@ router.get('/getnousers', auth, getNoUsers);
 router.get('/getrequests', auth, getRequests);
 router.get('/admin/getproductdetails/:id', getProductDetails)
 router.get('/getcard/:_id', getCardDetails)
-
+router.get('/getproduct', getLandingData);
 
 router.post('/adminlogin', adminLogin)
 
@@ -31,4 +32,5 @@ router.post('/register-org', OrgRegistration);
 router.post('/add-product', upload.single('productImage'), auth, addProduct)
 router.post('/add-card', auth, addCard)
 router.post('/adminupdate', auth, updateProduct);
+router.post('/deleteproduct', auth, deleteProduct)
 module.exports = router;

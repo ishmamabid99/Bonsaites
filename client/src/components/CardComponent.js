@@ -29,27 +29,28 @@ const useStyles = makeStyles(theme => ({
     }
 
 }))
-export default function CardComponent() {
+export default function CardComponent(props) {
+    console.log(props)
     const classes = useStyles()
-    const data = {
-        id: '12193masaisdaidq32323e9932e23',
-        img: Greenpaper,
-        name: 'Bd Boys',
-        price: '100',
-        desc: "Doremi intermio"
-    }
-    let obj = [];
-    for (var i = 0; i < 20; i++) {
-        obj[i] = data;
-    }
-    console.log(obj)
+    // const data = {
+    //     id: '12193masaisdaidq32323e9932e23',
+    //     img: Greenpaper,
+    //     name: 'Bd Boys',
+    //     price: '100',
+    //     desc: "Doremi intermio"
+    // }
+    // let obj = [];
+    // for (var i = 0; i < 20; i++) {
+    //     obj[i] = data;
+    // }
+    // console.log(obj)
     return (
-        <div>
+        <div className={classes.root}>
             <Grid container justifyContent='center'>
-                {obj.map((order, index) => (
+                {props.obj.map((order, index) => (
                     <Paper className={classes.paper} elevation={0} key={index}>
-                        <Link to={`/product/:${order.id}`}> <Paper square={true} style={{
-                            backgroundImage: `url(${order.img})`,
+                        <Link to={`/product/${order._id}`}> <Paper square={true} style={{
+                            backgroundImage: `url(${`/uploads/${order.img}`})`,
                             backgroundSize: "cover",
                             height: '19rem',
                         }}

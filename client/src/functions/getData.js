@@ -73,3 +73,18 @@ export const getCardDetails = async (id) => {
         console.log(err);
     }
 }
+export const getProductData = async () => {
+    try {
+        const res = await axios.get(path + '/getproduct');
+        console.log(res)
+        if (res.status === 200) {
+            return res.data;
+        }
+        else {
+            return false
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}

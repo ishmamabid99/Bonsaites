@@ -1,9 +1,10 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import NavProps from '../components/NavProps'
 import ShopImage from '../images/NewImage.jpg'
 import { Paper, makeStyles, Typography, Button, Modal, Box } from '@material-ui/core'
 import Footer from '../components/Footer'
 import CardComponent from '../components/CardComponent'
+import { getProductData } from '../functions/getData'
 const useStyles = makeStyles(theme => ({
     paper: {
         backgroundImage: `url(${ShopImage})`,
@@ -53,7 +54,20 @@ const useStyles = makeStyles(theme => ({
 export default function Landing() {
     const classes = useStyles();
     const nav = useContext(NavProps);
-    
+    const [prodData, setProdData] = useState([])
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const data = await getProductData();
+                console.log(data)
+                setProdData(data);
+            }
+            catch (err) {
+                console.log(err)
+            }
+        }
+        getData();
+    }, [])
     return (
 
         <>
@@ -78,7 +92,7 @@ export default function Landing() {
                     </div>
                 </div>
             </Paper>
-            <CardComponent/>
+            <CardComponent obj={prodData} />
             <Footer />
         </>
     )

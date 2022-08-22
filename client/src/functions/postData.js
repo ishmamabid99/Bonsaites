@@ -121,3 +121,23 @@ export const updateProduct = async (id) => {
         console.log(err)
     }
 }
+export const deleteProduct = async (id) => {
+    try {
+        const res = await axios.post(path + '/deleteproduct', {
+            id: id
+        }, {
+            headers: {
+                authorization: adminToken
+            }
+        })
+        if (res.status === 200) {
+            return true;
+        }
+        else {
+            return false
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}

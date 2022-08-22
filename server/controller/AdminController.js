@@ -82,3 +82,16 @@ module.exports.updateProduct = async (req, res) => {
         console.log(err)
     }
 }
+module.exports.deleteProduct = async (req, res) => {
+    try {
+        const doc = await Product.findByIdAndRemove(req.body.id);
+        console.log(doc);
+        if (doc) {
+            res.status(200).json(true)
+        }
+    }
+    catch (err) {
+        res.status(203).json(`${err}`)
+        console.log(err)
+    }
+}

@@ -3,7 +3,9 @@ import { green } from '@material-ui/core/colors';
 import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import React, { useContext, useEffect, useState } from 'react'
+import { Redirect, useHistory } from 'react-router-dom';
 import NavProps from '../components/NavProps'
+import AdminApi from '../contexts/AdminApi';
 import { adminEmail, adminPass } from '../env/env';
 import { adminLogin } from '../functions/postData';
 import { SwlCredentialsError, SwlLoginError } from '../functions/Swal';
@@ -40,9 +42,10 @@ const useStyles = makeStyles((theme) => ({
 export default function AdminPage(props) {
     const nav = useContext(NavProps);
     const [data, setData] = useState({})
-    const [loginState, setLoginState] = useState(false);
-
+    const loginState = useContext(AdminApi);
+    console.log(loginState)
     nav.setNav("ADMIN");
+    const history = useHistory()
     const classes = useStyles();
     const theme = createTheme({
         palette: {
@@ -57,67 +60,75 @@ export default function AdminPage(props) {
         fontFamily: 'Overpass'
     });
     useEffect(() => {
-        const val = Cookies.get('admin-access');
-        console.log(val)
-        if (val) {
-            const date = new Date();
-            const token = jwtDecode(val);
-            if (token.exp * 1000 > date.getTime()) {
+        try {
+            const val = Cookies.get('admin-access');
+            console.log(val)
+            if (val) {
+                const date = new Date();
+                const token = jwtDecode(val);
+                if (token.exp * 1000 > date.getTime()) {
 
-                setLoginState(true);
+                    loginState.setAdmin(true)
 
+                }
+                else {
+                    loginState.setAdmin(false)
+                }
             }
             else {
-                setLoginState(false)
+                loginState.setAdmin(false)
             }
         }
-        else {
-            setLoginState(false)
+        catch (err) {
+            console.log(err)
         }
     }, [])
     const handleChange = (e) => {
         setData({ ...data, [e.target.id]: e.target.value });
     }
     const handleSubmit = async () => {
-        if (data.adminEmail && data.adminPass) {
-            const ret = await adminLogin(data);
-            if (ret) {
-                Cookies.set('admin-access', ret)
-                setLoginState(true);
+        try {
+            if (data.adminEmail && data.adminPass) {
+                const ret = await adminLogin(data);
+                if (ret) {
+                    Cookies.set('admin-access', ret)
+                    loginState.setAdmin(true)
+                    window.location.href = '/admin-dashboard'
+                }
+                else {
+                    loginState.setAdmin(false)
+                    SwlLoginError();
+                }
             }
             else {
-                setLoginState(false);
-                SwlLoginError();
+                SwlLoginError()
             }
         }
-        else {
-            SwlLoginError()
+        catch (err) {
+            console.log(err)
         }
     }
+    if (loginState.isAdmin) {
+        return (
+            <Redirect to='/admin-dashboard' replace />
+        )
+    }
+    else {
+        return (
 
-    return (
-
-        <ThemeProvider theme={theme}>
-            {loginState ?
-                <>
-                    <AdminDashboard />
-                </>
-                :
-                <>
-                    <Typography align='center' className={classes.typo}>ADMIN LOGIN</Typography>
-                    <div align='center' className={classes.root}>
-                        <Avatar src={Admin} className={classes.avt} />
-                        <div style={{
-                            width: "25rem"
-                        }}>
-                            <TextField id='adminEmail' onChange={handleChange} variant='outlined' type='email' className={classes.txtfield} label='Email' placeholder='Admin Email' />
-                            <TextField id='adminPass' onChange={handleChange} variant='outlined' type='password' className={classes.txtfield} label='Password' placeholder='Admin Password' />
-                            <Button onClick={handleSubmit} variant='contained' color='primary' className={classes.btn}>Login</Button>
-                        </div>
+            <ThemeProvider theme={theme}>
+                <Typography align='center' className={classes.typo}>ADMIN LOGIN</Typography>
+                <div align='center' className={classes.root}>
+                    <Avatar src={Admin} className={classes.avt} />
+                    <div style={{
+                        width: "25rem"
+                    }}>
+                        <TextField id='adminEmail' onChange={handleChange} variant='outlined' type='email' className={classes.txtfield} label='Email' placeholder='Admin Email' />
+                        <TextField id='adminPass' onChange={handleChange} variant='outlined' type='password' className={classes.txtfield} label='Password' placeholder='Admin Password' />
+                        <Button onClick={handleSubmit} variant='contained' color='primary' className={classes.btn}>Login</Button>
                     </div>
-                </>
-            }
-
-        </ThemeProvider>
-    )
+                </div>
+            </ThemeProvider>
+        )
+    }
 }

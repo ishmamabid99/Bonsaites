@@ -1,7 +1,7 @@
 import { Avatar, Button, ButtonGroup, Grid, IconButton, makeStyles, Paper, Typography } from '@material-ui/core';
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
-import { updateProduct } from '../../functions/postData';
+import { deleteProduct, updateProduct } from '../../functions/postData';
 const useStyles = makeStyles(theme => ({
     paper: {
         height: "24rem",
@@ -52,9 +52,7 @@ export default function AdminCardComponent(props) {
             const result = updateProduct(id)
             if (result) {
                 try {
-                    props.setFetch((prev) => {
-                        props.setFetch(!prev)
-                    })
+                    props.forceUpdate();
                 }
                 catch (err) {
                     console.log(err)
@@ -65,9 +63,17 @@ export default function AdminCardComponent(props) {
             console.log(err)
         }
     }
-    const handleReject = (id) => {
+    const handleReject = async (id) => {
         try {
-
+            const result = deleteProduct(id);
+            if (result) {
+                try {
+                    props.setFetch(!!props.fetch)
+                }
+                catch (err) {
+                    console.log(err)
+                }
+            }
         }
         catch (err) {
             console.log(err)

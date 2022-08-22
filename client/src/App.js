@@ -24,6 +24,10 @@ import Bank from './pages/Bank';
 import BankApi from './contexts/BankApi';
 import AdminPage from './pages/AdminPage';
 import AdminDetails from './pages/ProductDetails';
+import AdminApi from './contexts/AdminApi';
+import ProtectedAdmin from './components/ProtectedAdmin';
+import AdminDashboard from './pages/AdminLogged/AdminDashboard';
+import ProtectedAdminRoute from './components/ProtectedAdminRoute';
 const useStyles = makeStyles(theme => ({
   bar: {
     position: "absolute",
@@ -41,6 +45,7 @@ export default function App() {
   const [modal, setModal] = useState(false);
   const [bar, setBar] = useState(false);
   const [bank, setBank] = useState(true)
+  const [isAdmin, setAdmin] = useState(false)
   useEffect(() => {
     console.log(bar)
     const val = Cookies.get('x-access')
@@ -76,13 +81,17 @@ export default function App() {
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
+
         <BankApi.Provider value={{ bank, setBank }} >
           <AuthApi.Provider value={{ isLoggedin, setLogin }}>
             <ProgressBarContext.Provider value={{ bar, setBar }}>
               <NavProps.Provider value={{ nav, setNav }}>
-                <Navbar />
-                <Routes org={org} />
-                <Route exact path='/admin' component={AdminPage} />
+                <AdminApi.Provider value={{ isAdmin, setAdmin }}>
+                  <Navbar />
+                  <Routes org={org} />
+                  <AdminRoutes />
+                  <AdminReRoutes />
+                </AdminApi.Provider>
               </NavProps.Provider>
             </ProgressBarContext.Provider>
           </AuthApi.Provider>
@@ -126,6 +135,32 @@ const Routes = (props) => {
         <Route exact path='/customer-signup'><CustomerSignup setNav={nav.setNav} /></Route>
         <Route exact path='/organization-signup'> <OrganizationSignup setNav={nav.setNav} /></Route>
       </ProtectedRoute>
+    </Switch>
+  )
+}
+const AdminRoutes = (props) => {
+  const admin = useContext(AdminApi);
+
+  console.log(admin)
+  return (
+    <Switch>
+
+      <Route exact path='/admin'>
+        <AdminPage />
+      </Route>
+
+    </Switch >
+  )
+}
+const AdminReRoutes = (props) => {
+  const admin = useContext(AdminApi);
+  return (
+    <Switch>
+
+      <Route exact path='/admin-dashboard'>
+        <AdminDashboard />
+      </Route>
+
     </Switch>
   )
 }
