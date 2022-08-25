@@ -360,6 +360,7 @@ export default function Navbar() {
                             null
 
                         }
+                        
                         {nav.nav === "ADMINLOGGED" ?
 
                             <Toolbar>
@@ -384,6 +385,23 @@ export default function Navbar() {
                             </Toolbar>
                             :
                             null
+                        }
+
+                        {nav.nav === "BANK" ?
+                            <Toolbar>
+                                <div className={classes.div1}>
+                                    <div style={{ width: "auto" }}>
+                                        <NavLink to='/bank' >
+                                            <div className={classes.rainbow}>
+                                                 Bank
+                                            </div>
+                                        </NavLink>
+                                    </div>
+                                </div>
+                            </Toolbar>
+                            :
+                            null
+
                         }
                     </>
                 }

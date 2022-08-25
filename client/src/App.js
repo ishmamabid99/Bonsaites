@@ -28,6 +28,7 @@ import AdminApi from './contexts/AdminApi';
 import ProtectedAdmin from './components/ProtectedAdmin';
 import AdminDashboard from './pages/AdminLogged/AdminDashboard';
 import ProtectedAdminRoute from './components/ProtectedAdminRoute';
+import Hellobank from './pages/SystemBank/Hellobank';
 const useStyles = makeStyles(theme => ({
   bar: {
     position: "absolute",
@@ -81,7 +82,6 @@ export default function App() {
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-
         <BankApi.Provider value={{ bank, setBank }} >
           <AuthApi.Provider value={{ isLoggedin, setLogin }}>
             <ProgressBarContext.Provider value={{ bar, setBar }}>
@@ -91,6 +91,7 @@ export default function App() {
                   <Routes org={org} />
                   <AdminRoutes />
                   <AdminReRoutes />
+                  <BankRoutes />
                 </AdminApi.Provider>
               </NavProps.Provider>
             </ProgressBarContext.Provider>
@@ -125,6 +126,7 @@ const Routes = (props) => {
           <Cart setNav={nav.setNav} />
         </Protected>
       </Route>
+
       <Route exact path="/profile">
         <Protected isLoggedin={auth.isLoggedin} >
           <Profile setNav={nav.setNav} />
@@ -161,6 +163,15 @@ const AdminReRoutes = (props) => {
         <AdminDashboard />
       </Route>
 
+    </Switch>
+  )
+}
+const BankRoutes = (props) => {
+  return (
+    <Switch>
+      <Route exact path='/bank' >
+        <Hellobank />
+      </Route>
     </Switch>
   )
 }
