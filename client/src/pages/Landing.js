@@ -66,7 +66,12 @@ export default function Landing() {
                 console.log(err)
             }
         }
-        getData();
+        try {
+            getData();
+        }
+        catch (err) {
+            console.log(err)
+        }
     }, [])
     return (
 

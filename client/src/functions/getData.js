@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { path } from '../env/env';
 import Cookies from 'js-cookie';
+import jwtDecode from 'jwt-decode';
 const token = Cookies.get('x-access');
 const adminToken = Cookies.get("admin-access");
-
+const accessToken = Cookies.get('x-access')
 export const getNoUsers = async () => {
     try {
 
@@ -45,7 +46,7 @@ export const getRequests = async () => {
 export const getProductDetails = async (_id) => {
     try {
         console.log(_id)
-        const _token = token || adminToken;
+        const _token = accessToken || adminToken;
         const res = await axios.get(path + `/admin/getproductdetails/${_id}`);
         if (res.status === 200) {
             return res.data;
@@ -82,6 +83,26 @@ export const getProductData = async () => {
         }
         else {
             return false
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+export const getWishList = async () => {
+    try {
+        const decode = jwtDecode(accessToken);
+        const res = await axios.get(path + `/getwishlist/${decode.user_id}`, {
+            headers: {
+                authorization: accessToken
+            }
+        });
+        console.log(res)
+        if (res.status === 200) {
+            return res.data;
+        }
+        else {
+            return []
         }
     }
     catch (err) {

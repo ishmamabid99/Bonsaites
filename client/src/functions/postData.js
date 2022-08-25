@@ -2,9 +2,10 @@
 import axios from 'axios'
 import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
-import { path } from '../env/env'
+import { path, token } from '../env/env'
 import { SwlCredentialsError, SwlLoginError, SwlNoAccountError } from './Swal';
 const adminToken = Cookies.get('admin-access')
+const accessToken = Cookies.get('x-access')
 export const registerUser = async (data) => {
     const res = await axios.post(path + '/register', {
         data: data
@@ -135,6 +136,34 @@ export const deleteProduct = async (id) => {
         }
         else {
             return false
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
+export const addToWishList = async (data) => {
+    try {
+        const decode = jwtDecode(accessToken);
+        console.log(decode)
+        data = { ...data, ref_id: decode.user_id };
+        console.log(data)
+        const res = await axios.post(path + '/addtowishlist', {
+            data: data
+        }, {
+            headers: {
+                authorization: accessToken
+            }
+        })
+        if (res.status === 200) {
+            return true;
+        }
+        else if (res.status === 205) {
+            SwlCredentialsError();
+        }
+        else {
+            return false;
         }
     }
     catch (err) {

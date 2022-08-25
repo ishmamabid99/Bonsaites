@@ -32,39 +32,31 @@ const useStyles = makeStyles(theme => ({
 export default function CardComponent(props) {
     console.log(props)
     const classes = useStyles()
-    // const data = {
-    //     id: '12193masaisdaidq32323e9932e23',
-    //     img: Greenpaper,
-    //     name: 'Bd Boys',
-    //     price: '100',
-    //     desc: "Doremi intermio"
-    // }
-    // let obj = [];
-    // for (var i = 0; i < 20; i++) {
-    //     obj[i] = data;
-    // }
-    // console.log(obj)
+
+
     return (
         <div className={classes.root}>
             <Grid container justifyContent='center'>
                 {props.obj.map((order, index) => (
-                    <Paper className={classes.paper} elevation={0} key={index}>
-                        <Link to={`/product/${order._id}`}> <Paper square={true} style={{
-                            backgroundImage: `url(${`/uploads/${order.img}`})`,
-                            backgroundSize: "cover",
-                            height: '19rem',
-                        }}
-                            className={classes.bgm}
-                            elevation={0}>
+                    <>
+                        <Paper className={classes.paper} elevation={0} key={index}>
+                            <Link to={props.state === 'wishlist' ? `/product/${order.prod_id}` : `/product/${order._id}`}> <Paper square={true} style={{
+                                backgroundImage: `url(${`/uploads/${order.img}`})`,
+                                backgroundSize: "cover",
+                                height: '19rem',
+                            }}
+                                className={classes.bgm}
+                                elevation={0}>
+                            </Paper>
+                            </Link>
+                            <Typography align='center' className={classes.typoCard}>
+                                {order.name}
+                            </Typography>
+                            <Typography align='center' className={classes.typoPrice}>
+                                ৳{order.price}.00
+                            </Typography>
                         </Paper>
-                        </Link>
-                        <Typography align='center' className={classes.typoCard}>
-                            {order.name}
-                        </Typography>
-                        <Typography align='center' className={classes.typoPrice}>
-                            ৳{order.price}.00
-                        </Typography>
-                    </Paper>
+                    </>
                 ))}
 
             </Grid>

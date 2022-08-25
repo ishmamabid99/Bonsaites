@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import AccountCircleIcon from '@material-ui/icons/ExitToApp';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import SearchIcon from '@material-ui/icons/Search'
 import { Paper, Button, ButtonGroup, Divider, IconButton, Modal, Typography, TextField, Grid, FormControlLabel, Checkbox } from '@material-ui/core';
@@ -214,16 +214,18 @@ export default function Navbar() {
                                                     <ShoppingCartIcon className={classes.icons} />
                                                 </IconButton>
                                             </NavLink>
-                                            <NavLink to='profile'>
-                                                <IconButton color='secondary'>
-                                                    <AccountCircleIcon className={classes.icons} />
-                                                </IconButton>
-                                            </NavLink>
                                             <NavLink to='wishlist'>
                                                 <IconButton color='secondary'>
                                                     <FavoriteIcon className={classes.icons} />
                                                 </IconButton>
                                             </NavLink>
+                                            <IconButton onClick={() => {
+                                                Cookies.remove('x-access');
+                                                nav.setNav("LANDING")
+                                                auth.setLogin(false);
+                                            }} color='secondary'>
+                                                <AccountCircleIcon className={classes.icons} />
+                                            </IconButton>
                                         </ThemeProvider>
                                     </div>
                                     :

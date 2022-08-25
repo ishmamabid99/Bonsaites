@@ -43,7 +43,7 @@ export default function Requests() {
                 console.log(err)
             }
         }
-        getData();
+     
         const interval = setInterval(() => {
             getData()
         }, 1000)

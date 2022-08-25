@@ -17,8 +17,10 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import CommentIcon from '@material-ui/icons/Comment';
 import AuthApi from '../contexts/AuthApi';
-import { SwlLogin, SwlWhishList } from '../functions/Swal';
+import { SwlCartCheck, SwlLogin, SwlSuccess, SwlWhishList } from '../functions/Swal';
 import NavProps from '../components/NavProps';
+import { addToWishList } from '../functions/postData';
+
 const useStyles = makeStyles(theme => ({
     root: {
         backgroundImage: `url(${backgroundImage})`,
@@ -157,7 +159,9 @@ export default function AdminDetails() {
     const [detailData, setDetailData] = useState(undefined)
     const [admin, setAdmin] = useState(false);
     const [cardNo, setCardNo] = useState(undefined)
+
     useEffect(() => {
+        let fetchData = true;
         const getToken = () => {
             try {
                 const details = jwtDecode(Cookies.get("admin-access"));
@@ -189,9 +193,12 @@ export default function AdminDetails() {
                 console.log(err)
             }
         }
-        getData();
-        getToken();
-        getCard();
+        if (fetchData) {
+            getToken();
+            getData();
+            getCard();
+        }
+        return () => fetchData = false;
     }, [])
     const handleWishlist = () => {
         if (auth.isLoggedin) {
@@ -199,8 +206,15 @@ export default function AdminDetails() {
                 SwlWhishList();
             }
             else {
-
-
+                const add = async () => {
+                    const res = await addToWishList({
+                        prod_id: id
+                    });
+                    if (res === true) {
+                        SwlSuccess();
+                    }
+                }
+                add();
             }
         }
         else {
@@ -213,7 +227,18 @@ export default function AdminDetails() {
                 const cartData = Cookies.get("cart");
                 if (cartData) {
                     const arr = JSON.parse(cartData);
-                    arr.push(detailData);
+                    let check = false;
+                    arr.forEach(element => {
+                        if (element._id === detailData._id) {
+                            check = true;
+                        }
+                    });
+                    if (!check) {
+                        arr.push(detailData);
+                    }
+                    else {
+                        SwlCartCheck();
+                    }
                     Cookies.set("cart", JSON.stringify(arr));
                 }
                 else {
@@ -326,7 +351,6 @@ export default function AdminDetails() {
                                         className={classes.btn}>
                                         ADD TO CART
                                     </Button>
-
                                 </Grid>
                             </Toolbar>
                         </div>

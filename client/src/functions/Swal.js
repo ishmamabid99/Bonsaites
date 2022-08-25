@@ -73,6 +73,13 @@ export const SwlWhishList = () => {
     Swal.fire({
         icon: "warning",
         title: "Warning...",
-        text: "This feature is not available for suppliers."
+        text: "This feature is only for users."
+    })
+}
+export const SwlCartCheck = () => {
+    Swal.fire({
+        icon: "warning",
+        title: "Warning...",
+        text: "Item is already added to the cart"
     })
 }
