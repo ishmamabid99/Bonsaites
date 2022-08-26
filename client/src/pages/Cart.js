@@ -142,6 +142,7 @@ export default function Cart(props) {
     const [total, setTotal] = useState(0)
     const [item, setItem] = useState(0)
     const [type, setType] = useState("");
+    const [stateX, setX] = useState(null)
     useEffect(() => {
         const getCart = () => {
             try {
