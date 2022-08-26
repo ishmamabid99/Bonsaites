@@ -2,6 +2,7 @@ const User = require("../models/User")
 const Product = require('../models/Product');
 const Organization = require("../models/Organization");
 const Card = require("../models/Card");
+const Transaction = require("../models/Transaction");
 module.exports.updateBank = async (req, res) => {
     try {
         const org = await Organization.findById(req.user.user_id);
@@ -89,6 +90,55 @@ module.exports.getCardDetails = async (req, res) => {
         else {
             res.status(203).json("Card Not found")
         }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+module.exports.getMyProducts = async (req, res) => {
+    try {
+        const ret = await Product.find({ owner: req.params.id });
+        if (ret.length !== 0) {
+            res.status(200).json(ret);
+        }
+        else {
+            res.status(203).json("Nothing to show")
+        }
+    }
+    catch (err) {
+
+    }
+}
+module.exports.getOrders = async (req, res) => {
+    try {
+        const arr = await Transaction.find({ to: req.params.id });
+        let retArr = []
+        console.log(arr.length)
+        for (var i = 0; i < arr.length; i++) {
+            console.log(arr[i].state)
+            if (arr[i].state === 1 || arr[i].state == 2) {
+
+                const data = await Product.findById(arr[i].prod_id);
+                if (data) {
+                    const { img, desc, initialSupply, leftSupply, owner, price, type, name } = data;
+                    let newData = {
+                        img, desc, initialSupply, leftSupply, owner, price, type, name,
+                        prod_id: arr[i].prod_id,
+                        amount: arr[i].amount,
+                        order: arr[i].quantity,
+                        payment: arr[i].type,
+                        from: arr[i].from,
+                        t_id: arr[i]._id
+
+                    }
+                    retArr.push(newData);
+                }
+            }
+        }
+        Promise.all([arr]).then(() => {
+            res.status(200).json(retArr)
+        })
+
     }
     catch (err) {
         console.log(err)

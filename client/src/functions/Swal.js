@@ -83,3 +83,17 @@ export const SwlCartCheck = () => {
         text: "Item is already added to the cart"
     })
 }
+export const SwlCartType = () => {
+    Swal.fire({
+        icon: "warning",
+        title: "Warning...",
+        text: "Please select type of delivery"
+    })
+}
+export const SwlTransactionSuccess = () => {
+    Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: "Your product has been queued for shipment"
+    })
+}

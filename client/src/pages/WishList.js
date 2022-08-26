@@ -34,6 +34,7 @@ export default function WishList(props) {
     }
     getWishListData()
   }, [])
+
   return (
     <>
       <div>

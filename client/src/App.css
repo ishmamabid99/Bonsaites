@@ -1,7 +1,5 @@
 html,
-body{
-  background-color: "#D2D79F";
-}
+body,
 #root {
   height: 100%;
 }

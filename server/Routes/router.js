@@ -1,10 +1,10 @@
 const { Register, Login, OrgRegistration } = require('../controller/AuthController');
-const { addProduct, getCardDetails } = require('../controller/OrgController');
+const { addProduct, getCardDetails, getMyProducts, getOrders } = require('../controller/OrgController');
 const auth = require("../middleware/auth");
 const router = require('express').Router();
 const multer = require('multer');
-const { addCard } = require('../controller/BankController');
-const { getNoUsers, adminLogin, getRequests, getProductDetails, updateProduct, deleteProduct } = require('../controller/AdminController');
+const { addCard, handleCheckOut } = require('../controller/BankController');
+const { getNoUsers, adminLogin, getRequests, getProductDetails, updateProduct, deleteProduct, getTransactions, updateTransactionsDelivery, proceedToBank } = require('../controller/AdminController');
 const { getLandingData, addToWishList, getWishlist } = require('../controller/LandingController');
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -22,7 +22,9 @@ router.get('/admin/getproductdetails/:id', getProductDetails)
 router.get('/getcard/:_id', getCardDetails)
 router.get('/getproduct', getLandingData);
 router.get('/getwishlist/:_id', auth, getWishlist)
-
+router.get('/gettransacations', auth, getTransactions);
+router.get('/getmyproducts/:id', auth, getMyProducts)
+router.get('/getmyorders/:id', auth, getOrders);
 router.post('/adminlogin', adminLogin)
 
 router.post('/register', Register)
@@ -34,4 +36,7 @@ router.post('/add-product', upload.single('productImage'), auth, addProduct)
 router.post('/add-card', auth, addCard)
 router.post('/adminupdate', auth, updateProduct);
 router.post('/deleteproduct', auth, deleteProduct)
+router.post('/addtransaction', auth, handleCheckOut)
+router.post('/updatedelivery', auth, updateTransactionsDelivery);
+router.post('/proceedbank', auth, proceedToBank);
 module.exports = router;

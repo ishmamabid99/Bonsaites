@@ -7,6 +7,8 @@ import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissa
 import { Link } from 'react-router-dom';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import ClearIcon from '@material-ui/icons/Clear';
+import { handleCheckCart } from '../functions/postData';
+import { SwlCartType, SwlError, SwlTransactionSuccess } from '../functions/Swal';
 const useStyles = makeStyles(theme => ({
     root: {
         marginTop: "7rem"
@@ -174,10 +176,49 @@ export default function Cart(props) {
             }
         }
         getCart();
-    }, [])
+    }, [count])
     useEffect(() => {
 
     }, [count])
+    const handleChekOut = async () => {
+        let owners = []
+        cartData.forEach((ele) => {
+            console.log(ele)
+            owners.push({
+                to: ele.owner,
+                amount: ele.quantity * ele.price,
+                quantity: ele.quantity,
+                prod_id: ele._id
+
+            })
+        })
+
+        try {
+            const sendData = {
+                owners,
+                type,
+            }
+            if (type === "") {
+                SwlCartType();
+            }
+            else {
+                const res = await handleCheckCart(sendData);
+                if (res) {
+                    SwlTransactionSuccess();
+                    Cookies.remove('cart');
+                    setCartData([]);
+                    setCount(count + 1)
+                }
+                else {
+                    SwlError();
+                }
+            }
+
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
     return (
         <>
             {cartData === [] || cartData === "Nothing to show" ?
@@ -314,7 +355,7 @@ export default function Cart(props) {
                                 <div className={classes.div}>
                                     <span className={classes.item}>TOTAL PRICE:</span><span className={classes.itemCnt}>৳{total}</span>
                                 </div>
-                                <Button className={classes.btn} variant='contained' color='secondary'>Checkout</Button>
+                                <Button className={classes.btn} onClick={handleChekOut} variant='contained' color='secondary'>Checkout</Button>
                             </Paper>
                         </div>
                     </div>

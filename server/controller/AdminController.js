@@ -2,6 +2,7 @@ const User = require("../models/User")
 const jwt = require('jsonwebtoken');
 const Organization = require("../models/Organization");
 const Product = require("../models/Product");
+const Transaction = require("../models/Transaction");
 module.exports.adminLogin = async (req, res) => {
     try {
         const { adminEmail, adminPass } = req.body
@@ -92,6 +93,51 @@ module.exports.deleteProduct = async (req, res) => {
     }
     catch (err) {
         res.status(203).json(`${err}`)
+        console.log(err)
+    }
+}
+module.exports.getTransactions = async (req, res) => {
+    try {
+        const ret = await Transaction.find({});
+        if (ret) {
+            res.status(200).json(ret)
+        }
+        else {
+            res.status(203).json("Nothing to show")
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+module.exports.updateTransactionsDelivery = async (req, res) => {
+    try {
+        const id = req.body.data;
+        console.log(req.body.data)
+        const ret = await Transaction.findByIdAndUpdate(id, { state: 2 });
+        if (ret) {
+            res.status(200).json(true);
+        }
+        else {
+            res.status(203).json(false)
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+module.exports.proceedToBank = async (req, res) => {
+    try {
+        const id = req.body.data;
+        const ret = await Transaction.findByIdAndUpdate(id, { state: 1 });
+        if (ret) {
+            res.status(200).json(true);
+        }
+        else {
+            res.status(203).json(false)
+        }
+    }
+    catch (err) {
         console.log(err)
     }
 }

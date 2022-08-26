@@ -171,7 +171,7 @@ export default function Navbar() {
                     auth.setLogin(true);
                     nav.setNav(val.user_role);
                     bank.setBank(val.user_bank)
-                    history.push('/');
+                    window.location.href = '/'
                 }
                 else {
                     auth.setLogin(false)
@@ -360,7 +360,22 @@ export default function Navbar() {
                             null
 
                         }
-                        
+                        {nav.nav === "BANK" ?
+                            <Toolbar>
+                                <div className={classes.div1}>
+                                    <div style={{ width: "auto" }}>
+                                        <NavLink to='/admin' >
+                                            <div className={classes.rainbow}>
+                                                BANK
+                                            </div>
+                                        </NavLink>
+                                    </div>
+                                </div>
+                            </Toolbar>
+                            :
+                            null
+
+                        }
                         {nav.nav === "ADMINLOGGED" ?
 
                             <Toolbar>
@@ -385,23 +400,6 @@ export default function Navbar() {
                             </Toolbar>
                             :
                             null
-                        }
-
-                        {nav.nav === "BANK" ?
-                            <Toolbar>
-                                <div className={classes.div1}>
-                                    <div style={{ width: "auto" }}>
-                                        <NavLink to='/bank' >
-                                            <div className={classes.rainbow}>
-                                                 Bank
-                                            </div>
-                                        </NavLink>
-                                    </div>
-                                </div>
-                            </Toolbar>
-                            :
-                            null
-
                         }
                     </>
                 }

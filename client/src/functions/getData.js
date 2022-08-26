@@ -109,3 +109,69 @@ export const getWishList = async () => {
         console.log(err)
     }
 }
+export const getTransactions = async (type) => {
+    let token_;
+    if (type === "org") {
+        token_ = accessToken;
+    }
+    else {
+        token_ = adminToken
+    }
+    try {
+        const res = await axios.get(path + `/gettransacations`, {
+            headers: {
+                authorization: token_
+            }
+        })
+        if (res.status === 200) {
+            return res.data;
+        }
+        else {
+            return false
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+export const getMyProducts = async () => {
+    try {
+        const { user_id } = jwtDecode(accessToken)
+        const res = await axios.get(path + `/getmyproducts/${user_id}`, {
+            headers: {
+                authorization: accessToken
+            }
+        })
+        console.log(res)
+        if (res.status === 200) {
+            return res.data
+        }
+        else {
+            return false;
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+export const getMyOrder = async () => {
+
+    try {
+        const { user_id } = jwtDecode(accessToken)
+        const res = await axios.get(path + `/getmyorders/${user_id}`, {
+            headers: {
+                authorization: accessToken
+            }
+        });
+        if (res.status === 200) {
+            return res.data;
+        }
+        else {
+            return false
+        }
+
+    }
+    catch (err) {
+        console.log(err)
+    }
+}

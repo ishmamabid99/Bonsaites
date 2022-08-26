@@ -19,7 +19,7 @@ const cardSchema = new mongoose.Schema({
     CVV: {
         type: String,
         required: true,
-     
+
     },
     MMYY: {
         type: String,

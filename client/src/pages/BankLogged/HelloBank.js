@@ -1,8 +1,8 @@
 import { Avatar, Button, createTheme, makeStyles, TextField, ThemeProvider, Typography } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
 import React, { useContext, useState } from "react";
-import BankLogged from "../../components/BankLogged";
 import NavProps from "../../components/NavProps";
+import AfterLogged from "./AfterLogged";
 const useStyles = makeStyles(theme => ({
     txtfield: {
         width: "22rem",
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 
     },
 }))
-export default function Hellobank() {
+export default function HelloBank() {
     const classes = useStyles();
     const nav = useContext(NavProps)
     const [auth, setAuth] = useState(false);
@@ -69,7 +69,7 @@ export default function Hellobank() {
             <ThemeProvider theme={theme}>
                 {auth ?
                     <>
-                        <BankLogged />
+                        <AfterLogged />
                     </>
                     :
                     <>

@@ -1,4 +1,4 @@
-import { ButtonGroup, Grid, IconButton, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Button, ButtonGroup, Grid, IconButton, makeStyles, Paper, Typography } from '@material-ui/core';
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import Greenpaper from '../images/CardImage.jpg'
@@ -55,7 +55,13 @@ export default function CardComponent(props) {
                             <Typography align='center' className={classes.typoPrice}>
                                 ৳{order.price}.00
                             </Typography>
+                            {props.state === "EXPORT" ?
+                                <Button variant='contained' color='primary' className={classes.btn}>Order</Button>
+                                :
+                                null
+                            }
                         </Paper>
+
                     </>
                 ))}
 

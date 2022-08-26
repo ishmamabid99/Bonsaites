@@ -1,4 +1,3 @@
-
 import axios from 'axios'
 import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
@@ -168,5 +167,85 @@ export const addToWishList = async (data) => {
     }
     catch (err) {
         console.log(err)
+    }
+}
+export const handleCheckCart = async (data) => {
+    try {
+        const { owners } = data;
+        const decode = jwtDecode(accessToken);
+        data.from = decode.user_id;
+        let cnt = 0
+        const postFun = async (sendData) => {
+            const res = await axios.post(path + `/addtransaction`, {
+                data: sendData
+            }, {
+                headers: {
+                    authorization: accessToken
+                }
+            })
+            if (res.status === 200) {
+                cnt++;
+            }
+        }
+        for (var i = 0; i < owners.length; i++) {
+            const element = owners[i]
+            const sendData = { from: data.from, to: element.to, quantity: element.quantity, amount: element.amount, type: data.type, prod_id: element.prod_id }
+            console.log(sendData)
+            const res = await postFun(sendData);
+            console.log(res)
+            Promise.all([res]);
+        }
+        if (cnt === owners.length) {
+            return true;
+        }
+        else {
+            return false
+        }
+
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+export const updatedelivery = async (id) => {
+    try {
+        const res = await axios.post(path + `/updatedelivery`, {
+            data: id
+        }, {
+            headers: {
+                authorization: adminToken
+            }
+        });
+        console.log(res)
+        if (res.status === 200) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    catch (err) {
+
+    }
+}
+export const proceedBank = async (id) => {
+    try {
+        const res = await axios.post(path + `/proceedbank`, {
+            data: id
+        }, {
+            headers: {
+                authorization: adminToken
+            }
+        });
+        console.log(res)
+        if (res.status === 200) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    catch (err) {
+
     }
 }
