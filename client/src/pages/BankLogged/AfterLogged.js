@@ -13,15 +13,22 @@ const useStyles = makeStyles(theme => ({
     },
 
     paper2: {
-        height: "17rem",
-        width: " 150rem",
+        height: "25rem",
+        width: " 100%",
         marginBottom: "3rem",
+        backgroundRepeat: "no-repeat",
+    },
+    paper3: {
+        height: "20rem",
+        width: "60rem",
+        marginBottom: "3rem",
+        marginTop: "3rem",
         backgroundImage: `url(${img})`,
-        backgroundRepeat: "none",
-
-
+        backgroundRepeat: "no-repeat",
+        backgroundSize: 'cover'
     },
     root: {
+        paddingBottom: "5rem",
         background: "#89CFFD"
     },
 
@@ -56,8 +63,9 @@ export default function AfterLogged() {
     }, [])
     return (
         <div className={classes.root}>
-            <div>
-                <Paper elevation={0} className={classes.paper2} align="right">
+            <div style={{ marginBottom: "5rem" }}>
+                <Paper elevation={0} className={classes.paper2} align="center">
+                    <Paper className={classes.paper3} elevation={0} />
                 </Paper>
             </div>
             <Typography className={classes.typo}>Welcome to your account</Typography>

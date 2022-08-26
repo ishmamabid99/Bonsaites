@@ -175,3 +175,23 @@ export const getMyOrder = async () => {
         console.log(err)
     }
 }
+export const getSupplierOrders = async () => {
+    try {
+        const { user_id } = jwtDecode(accessToken);
+        const res = await axios.get(path + `/getsupplyorder/${user_id}`, {
+            headers: {
+                authorization: accessToken
+            }
+        });
+        if (res.status === 200) {
+            return res.data;
+        }
+        else {
+            return false;
+        }
+
+    }
+    catch (err) {
+        console.log(err)
+    }
+}

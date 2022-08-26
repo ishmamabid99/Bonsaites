@@ -45,9 +45,6 @@ export default function Transactions() {
         getData();
 
     }, [count])
-    const handleDelivery = (data) => {
-
-    }
 
     return (
         <div className={classes.root}>

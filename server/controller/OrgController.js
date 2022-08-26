@@ -3,6 +3,7 @@ const Product = require('../models/Product');
 const Organization = require("../models/Organization");
 const Card = require("../models/Card");
 const Transaction = require("../models/Transaction");
+const Order = require("../models/Order");
 module.exports.updateBank = async (req, res) => {
     try {
         const org = await Organization.findById(req.user.user_id);
@@ -139,6 +140,36 @@ module.exports.getOrders = async (req, res) => {
             res.status(200).json(retArr)
         })
 
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+module.exports.getSupplierOrders = async (req, res) => {
+    try {
+        const ret = await Order.find({ owner: req.params.id });
+        if (ret.length > 0) {
+            res.status(200).json(ret)
+        }
+        else {
+            res.status(203).json("Nothing to show")
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+module.exports.deliverOrder = async (req, res) => {
+    try {
+        const { id, amount, o_id } = req.body.data;
+        const ret = await Product.findById(id);
+        ret.initialSupply += parseInt(amount);
+        ret.leftSupply += parseInt(amount);
+        ret.save();
+        const data = await Order.findByIdAndDelete(o_id)
+        Promise.all([ret, data]).then(() => {
+            res.status(200).json(true)
+        })
     }
     catch (err) {
         console.log(err)

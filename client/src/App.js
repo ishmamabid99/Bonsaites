@@ -29,6 +29,7 @@ import ProtectedAdmin from './components/ProtectedAdmin';
 import AdminDashboard from './pages/AdminLogged/AdminDashboard';
 import ProtectedAdminRoute from './components/ProtectedAdminRoute';
 import HelloBank from './pages/BankLogged/HelloBank';
+import SupplyRequests from './components/SupplyRequests';
 const useStyles = makeStyles(theme => ({
   bar: {
     position: "absolute",
@@ -123,6 +124,9 @@ const Routes = (props) => {
       </Route>
       <Route exact path="/my-product" >
         <MyProduct />
+      </Route>
+      <Route exact path="/supply-requests" >
+        <SupplyRequests />
       </Route>
       <Route exact path="/cart" >
         <Protected isLoggedin={auth.isLoggedin}>

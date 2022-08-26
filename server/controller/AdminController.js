@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const Organization = require("../models/Organization");
 const Product = require("../models/Product");
 const Transaction = require("../models/Transaction");
+const Order = require("../models/Order");
 module.exports.adminLogin = async (req, res) => {
     try {
         const { adminEmail, adminPass } = req.body
@@ -135,6 +136,22 @@ module.exports.proceedToBank = async (req, res) => {
         }
         else {
             res.status(203).json(false)
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+module.exports.postOrder = async (req, res) => {
+    try {
+        const ret = await Order.create({
+            ...req.body.data
+        })
+        if (ret) {
+            res.status(200).json(ret)
+        }
+        else {
+            res.status(203).json("Hoy nai broooo....")
         }
     }
     catch (err) {

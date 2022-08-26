@@ -45,11 +45,6 @@ export default function OrgHome(props) {
                         Order History
                     </Typography>
                     <OrderComponent data={orders} />
-                    <OrderComponent data={orders} />
-                    <OrderComponent data={orders} />
-                    <OrderComponent data={orders} />
-                    <OrderComponent data={orders} />
-                    <OrderComponent data={orders} />
                 </>
 
             }

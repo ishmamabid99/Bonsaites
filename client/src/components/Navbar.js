@@ -262,6 +262,11 @@ export default function Navbar() {
                                                             <Typography className={classes.btn}>MY PRODUCTS</Typography>
                                                         </Button>
                                                     </NavLink>'
+                                                    <NavLink to='/supply-requests'>
+                                                        <Button className={classes.typo}>
+                                                            <Typography className={classes.btn}>Supply Requests</Typography>
+                                                        </Button>
+                                                    </NavLink>'
 
                                                     <Button onClick={() => {
                                                         auth.setLogin(false);

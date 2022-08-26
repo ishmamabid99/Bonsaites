@@ -249,3 +249,43 @@ export const proceedBank = async (id) => {
 
     }
 }
+export const postOrder = async (data) => {
+    try {
+        const res = await axios.post(path + `/postorder`, {
+            data: data
+        }, {
+            headers: {
+                authorization: adminToken
+            }
+        });
+        if (res.status === 200) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+export const deliverOrder = async (data) => {
+    try {
+        const res = await axios.post(path + `/deliversupply`, {
+            data: data
+        }, {
+            headers: {
+                authorization: accessToken
+            }
+        })
+        if (res.status === 200) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}

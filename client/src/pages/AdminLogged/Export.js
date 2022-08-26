@@ -22,11 +22,10 @@ export default function Export() {
     }, [])
     return (
         <>
-            {exportData === [] || undefined ?
+            {exportData === [] || exportData === undefined ?
                 <ProgressBar />
                 :
                 <CardComponent obj={exportData} state="EXPORT" />
-
             }
         </>
     )
