@@ -3,7 +3,7 @@ const { addProduct, getCardDetails, getMyProducts, getOrders, getSupplierOrders,
 const auth = require("../middleware/auth");
 const router = require('express').Router();
 const multer = require('multer');
-const { addCard, handleCheckOut } = require('../controller/BankController');
+const { addCard, handleCheckOut, getCardInfo } = require('../controller/BankController');
 const { getNoUsers, adminLogin, getRequests, getProductDetails, updateProduct, deleteProduct, getTransactions, updateTransactionsDelivery, proceedToBank, postOrder } = require('../controller/AdminController');
 const { getLandingData, addToWishList, getWishlist } = require('../controller/LandingController');
 const storage = multer.diskStorage({
@@ -27,6 +27,7 @@ router.get('/getmyproducts/:id', auth, getMyProducts)
 router.get('/getmyorders/:id', auth, getOrders);
 router.get('/getsupplyorder/:id', auth, getSupplierOrders)
 router.post('/adminlogin', adminLogin)
+router.get('/getcardinfo', auth, getCardInfo)
 
 router.post('/register', Register)
 router.post('/login', Login);

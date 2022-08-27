@@ -1,4 +1,4 @@
-import { Avatar, Button, createTheme, makeStyles, Paper, TextField, ThemeProvider, Typography } from '@material-ui/core';
+import { Avatar, Button, createTheme, Grid, makeStyles, Paper, TextField, ThemeProvider, Typography } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
@@ -42,11 +42,12 @@ const useStyles = makeStyles((theme) => ({
     },
     admin: {
         height: "70rem",
+        width: "auto",
         backgroundImage: `url(${myadminPage})`,
         backgroundRepeat: "no-repeat",
-        backgroundPosition: "left 20px top 70px",
-        backgrounSize: "50rem 50rem",
-        marginTop: "7rem"
+        backgrounSize: "cover",
+        marginTop: "7rem",
+        background: "red"
     }
 }))
 export default function AdminPage(props) {
@@ -125,21 +126,24 @@ export default function AdminPage(props) {
     }
     else {
         return (
-            <div elevation={0} className={classes.admin}>
-                <ThemeProvider theme={theme}>
-                    <Typography align='center' className={classes.typo}>ADMIN LOGIN</Typography>
-                    <div align='center' className={classes.root}>
-                        <Avatar src={Admin} className={classes.avt} />
-                        <div style={{
-                            width: "25rem"
-                        }}>
-                            <TextField id='adminEmail' onChange={handleChange} variant='outlined' type='email' className={classes.txtfield} label='Email' placeholder='Admin Email' />
-                            <TextField id='adminPass' onChange={handleChange} variant='outlined' type='password' className={classes.txtfield} label='Password' placeholder='Admin Password' />
-                            <Button onClick={handleSubmit} variant='contained' color='primary' className={classes.btn}>Login</Button>
+            <Grid container justifyContent='space-between'>
+                <Paper className={classes.admin}></Paper>
+                <Paper elevation={0}>
+                    <ThemeProvider theme={theme}>
+                        <Typography align='center' className={classes.typo}>ADMIN LOGIN</Typography>
+                        <div align='center' className={classes.root}>
+                            <Avatar src={Admin} className={classes.avt} />
+                            <div style={{
+                                width: "25rem"
+                            }}>
+                                <TextField id='adminEmail' onChange={handleChange} variant='outlined' type='email' className={classes.txtfield} label='Email' placeholder='Admin Email' />
+                                <TextField id='adminPass' onChange={handleChange} variant='outlined' type='password' className={classes.txtfield} label='Password' placeholder='Admin Password' />
+                                <Button onClick={handleSubmit} variant='contained' color='primary' className={classes.btn}>Login</Button>
+                            </div>
                         </div>
-                    </div>
-                </ThemeProvider>
-            </div>
+                    </ThemeProvider>
+                </Paper>
+            </Grid>
         )
     }
 }

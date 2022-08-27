@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const Organization = require("../models/Organization")
 const jwt = require('jsonwebtoken')
 const Transaction = require("../models/Transaction")
+const { model } = require("mongoose")
 module.exports.addCard = async (req, res) => {
     try {
         const data = req.body || req.body.data
@@ -70,6 +71,24 @@ module.exports.handleCheckOut = async (req, res) => {
         Promise.all([card, transaction]).then(() => {
             res.status(200).json(transaction)
         })
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
+module.exports.getCardInfo = async (req, res) => {
+    try {
+        const {id} = req.body.data;
+        const ret = await Card.findOne({
+            ref_id: id
+        })
+        if (ret){
+            res.status(200).json(ret)
+        }
+        else{
+            res.status(203).json("Nothing to show")
+        }
     }
     catch (err) {
         console.log(err)

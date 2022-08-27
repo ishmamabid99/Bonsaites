@@ -3,6 +3,9 @@ import { green } from "@material-ui/core/colors";
 import React, { useContext, useState } from "react";
 import NavProps from "../../components/NavProps";
 import AfterLogged from "./AfterLogged";
+import mid from "../../images/mid.svg"
+import side from "../../images/bankside.svg"
+
 const useStyles = makeStyles(theme => ({
     txtfield: {
         width: "22rem",
@@ -15,14 +18,23 @@ const useStyles = makeStyles(theme => ({
     typo: {
         marginTop: "8rem",
         marginBottom: "0rem",
-        fontFamily: 'Lemon',
+        fontFamily: 'Laila',
         fontSize: '3rem',
+        fontWeight: "600",
         opacity: "0.7"
     },
     avt: {
         height: "15rem",
         width: '15rem',
         marginBottom: "3rem"
+    },
+
+    avt2: {
+        height: "40rem",
+        backgroundImage: `url(${side})`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "left 5px top 5px",
+        marginTop: "7rem"
     },
     btn: {
         color: 'white',
@@ -73,15 +85,17 @@ export default function HelloBank() {
                     </>
                     :
                     <>
-                        <Typography align='center' className={classes.typo}>BANK LOGIN</Typography>
-                        <div align='center' className={classes.root}>
-                            <Avatar src={""} className={classes.avt} />
-                            <div style={{
-                                width: "25rem"
-                            }}>
-                                <TextField id='email' onChange={handleChange} variant='outlined' type='email' className={classes.txtfield} label='Email' placeholder='Admin Email' />
-                                <TextField id='password' onChange={handleChange} variant='outlined' type='password' className={classes.txtfield} label='Password' placeholder='Admin Password' />
-                                <Button onClick={handleSubmit} variant='contained' color='primary' className={classes.btn}>Login</Button>
+                        <div elevation={0} className={classes.avt2}>
+                            <Typography align='center' className={classes.typo}>BANK LOGIN</Typography>
+                            <div align='center' className={classes.root}>
+                                <Avatar variant="square" src={mid} className={classes.avt} />
+                                <div style={{
+                                    width: "25rem"
+                                }}>
+                                    <TextField id='email' onChange={handleChange} variant='outlined' type='email' className={classes.txtfield} label='Email' placeholder='Admin Email' />
+                                    <TextField id='password' onChange={handleChange} variant='outlined' type='password' className={classes.txtfield} label='Password' placeholder='Admin Password' />
+                                    <Button onClick={handleSubmit} variant='contained' color='primary' className={classes.btn}>Login</Button>
+                                </div>
                             </div>
                         </div>
                     </>
