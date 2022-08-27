@@ -4,8 +4,9 @@ import AccountCircleIcon from '@material-ui/icons/AccountBox';
 import CategoryIcon from '@material-ui/icons/Category';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import BarChartIcon from '@material-ui/icons/BarChart';
-import { getNoUsers } from '../../functions/getData';
+import { getNoUsers, getTransactions } from '../../functions/getData';
 import ProgressBar from '../../components/ProgressBar';
+import DashboardTable from '../../components/DashboardTable';
 const useStyles = makeStyles(theme => ({
     paper1: {
         width: "20rem",
@@ -53,6 +54,8 @@ const useStyles = makeStyles(theme => ({
 export default function Overview() {
     const classes = useStyles();
     const [data, setData] = useState(undefined);
+    const [overViewTab, setOverViewTab] = useState([])
+    const [transactionData, setTransactionData] = useState(0)
     useEffect(() => {
         const getData = async () => {
             try {
@@ -67,33 +70,59 @@ export default function Overview() {
         getData();
 
     }, [])
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const res = await getTransactions();
+                console.log(res)
+                if (res) {
+                    let cnt = 0;
+                    for (var i = 0; i < res.length; i++) {
+                        cnt += res[i].amount;
+                    }
+                    setOverViewTab(res);
+                    setTransactionData(cnt)
+                }
+
+                else
+                    setOverViewTab([])
+            }
+            catch (err) {
+                console.log(err)
+            }
+        }
+        getData();
+    }, [])
     return (
         <>
             {data === undefined ?
                 <ProgressBar />
                 :
-                <Grid container justifyContent="space-evenly">
-                    <Paper align='left' elevate={4} className={classes.paper1}>
-                        <AccountCircleIcon className={classes.icons} />
-                        <Typography className={classes.typo1}>Users</Typography>
-                        <Typography className={classes.typo2}>{data.users}</Typography>
-                    </Paper>
-                    <Paper elevate={4} className={classes.paper2}>
-                        <CategoryIcon className={classes.icons} />
-                        <Typography className={classes.typo1}>Products</Typography>
-                        <Typography className={classes.typo2}>{data.products}</Typography>
-                    </Paper>
-                    <Paper elevate={4} className={classes.paper3}>
-                        <BarChartIcon className={classes.icons} />
-                        <Typography className={classes.typo1}>Suppliers</Typography>
-                        <Typography className={classes.typo2}>{data.suppliers}</Typography>
-                    </Paper>
-                    <Paper elevate={4} className={classes.paper4}>
-                        <MonetizationOnIcon className={classes.icons} />
-                        <Typography className={classes.typo1}>Transactions</Typography>
-                        <Typography className={classes.typo2}>$300,150</Typography>
-                    </Paper>
-                </Grid>
+                <div style={{ marginBottom: "5rem" }}>
+                    <Grid container justifyContent="space-evenly">
+                        <Paper align='left' elevate={4} className={classes.paper1}>
+                            <AccountCircleIcon className={classes.icons} />
+                            <Typography className={classes.typo1}>Users</Typography>
+                            <Typography className={classes.typo2}>{data.users}</Typography>
+                        </Paper>
+                        <Paper elevate={4} className={classes.paper2}>
+                            <CategoryIcon className={classes.icons} />
+                            <Typography className={classes.typo1}>Products</Typography>
+                            <Typography className={classes.typo2}>{data.products}</Typography>
+                        </Paper>
+                        <Paper elevate={4} className={classes.paper3}>
+                            <BarChartIcon className={classes.icons} />
+                            <Typography className={classes.typo1}>Suppliers</Typography>
+                            <Typography className={classes.typo2}>{data.suppliers}</Typography>
+                        </Paper>
+                        <Paper elevate={4} className={classes.paper4}>
+                            <MonetizationOnIcon className={classes.icons} />
+                            <Typography className={classes.typo1}>Transactions</Typography>
+                            <Typography className={classes.typo2}>${transactionData}</Typography>
+                        </Paper>
+                    </Grid>
+                    <DashboardTable tabData={overViewTab} />
+                </div>
             }
         </>
     )

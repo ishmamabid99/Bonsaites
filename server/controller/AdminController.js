@@ -4,6 +4,7 @@ const Organization = require("../models/Organization");
 const Product = require("../models/Product");
 const Transaction = require("../models/Transaction");
 const Order = require("../models/Order");
+const Card = require("../models/Card");
 module.exports.adminLogin = async (req, res) => {
     try {
         const { adminEmail, adminPass } = req.body
@@ -129,16 +130,25 @@ module.exports.updateTransactionsDelivery = async (req, res) => {
 }
 module.exports.proceedToBank = async (req, res) => {
     try {
-        const id = req.body.data;
-        const ret = await Transaction.findByIdAndUpdate(id, { state: 1 });
-        if (ret) {
-            res.status(200).json(true);
-        }
-        else {
-            res.status(203).json(false)
-        }
+        const { _id, prod_id, amount } = req.body.data;
+        console.log(_id);
+        console.log(prod_id)
+        const promise1 = await Transaction.findByIdAndUpdate(_id, { state: 1 });
+        const promise2 = await Product.findById(prod_id);
+        promise2.leftSupply = (parseInt(promise2.leftSupply) - parseInt(amount));
+        await promise2.save();
+        const promise3 = await Card.find({ ref_id: promise2.owner });
+        promise3[0].balance = parseInt(promise3[0].balance) + (0.85 * parseInt(amount) * parseInt(promise2.price));
+        await promise3[0].save();
+        const promise4 = await Card.find({ account_no: "121-421-352-057" });
+        promise4[0].balance = parseInt(promise4[0].balance) + (0.15 * parseInt(amount) * parseInt(promise2.price));
+        await promise4[0].save();
+        Promise.all([promise1, promise2, promise3, promise4]).then(() => {
+            res.status(200).json(true)
+        })
     }
     catch (err) {
+        res.status(203).json(false)
         console.log(err)
     }
 }

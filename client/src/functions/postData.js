@@ -72,7 +72,7 @@ export const addCard = async (data) => {
         const token = Cookies.get('x-access');
         const res = await axios.post(path + "/add-card", data, {
             headers: {
-                authorization: token
+                authorization: accessToken
             }
         });
         if (res && res.status === 200) {
@@ -228,10 +228,11 @@ export const updatedelivery = async (id) => {
 
     }
 }
-export const proceedBank = async (id) => {
+export const proceedBank = async (data) => {
     try {
+        console.log(data)
         const res = await axios.post(path + `/proceedbank`, {
-            data: id
+            data: data
         }, {
             headers: {
                 authorization: adminToken
