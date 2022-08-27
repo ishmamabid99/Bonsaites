@@ -68,13 +68,14 @@ const useStyles = makeStyles(theme => ({
     },
     detail: {
         marginTop: "3rem",
-        fontFamily: "Overpass",
-        lineHeight: "1.5"
+        fontFamily: "laila",
+        lineHeight: "1.5",
+        fontSize: "1.35rem"
     },
     priceTypo: {
         fontFamily: "Roboto",
         fontWeight: "800",
-        fontSize: "1.25rem",
+        fontSize: "1.5rem",
         opacity: "0.8",
         marginTop: "2.25rem"
     },
@@ -289,13 +290,7 @@ export default function AdminDetails() {
                                         {detailData.name}
                                     </Typography>
                                     <Typography paragraph align='justify' className={classes.detail}>
-                                        Polyester, Spandex
-                                        Imported
-                                        This gorgeous maxi dress is incredibly soft, stretchy and lightweight material
-                                        Features: summer dresses with pockets, solid color and floral print maxi dress, sleeveless dresses, women's casual summer beach dress featuring round neckline and side split hem design
-                                        Occasion: casual dresses for women, great for hot summer days, beach dresses for women, sundresses for women, vacation dresses, travel, work, office, party, wedding
-                                        This timeless beach dress is perfect with sneakers and a sparkling tassel necklace, or you can dress it up with wedges/heels and a floppy hat for vacation days!
-                                        US SIZE: S(US 4-6), M(US 8-10), L(US 12-14), XL(US 16-18), 2XL(20-22). Model wears a size small, Please Check the Size Chart Before Ordering.
+                                        {detailData.desc}
                                     </Typography>
 
                                     <Typography align='center' className={classes.priceTypo}>

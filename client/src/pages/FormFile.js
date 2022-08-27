@@ -96,9 +96,10 @@ export default function FormFile() {
                             }}
                         >
                             <option value="" disabled />
-                            <option value={10}>Ten</option>
-                            <option value={20}>Twenty</option>
-                            <option value={30}>Thirty</option>
+                            <option value={"Indoor Plants"}>Indoor Plants</option>
+                            <option value={"Outdoor Plants"}>Outdoor Plants</option>
+                            <option value={"Medicine & Pesticides"}>Medicine and Pesticides</option>
+                            <option value={"Accessories"}>Accessories</option>
                         </Select>
                     </FormControl>
                     <input name='image' type='file' onChange={(e) => {
@@ -114,7 +115,7 @@ export default function FormFile() {
                             }
                         </Avatar>
                     </label>
-                    <Button onClick={(e)=>handleSubmit(e)} variant='contained' color='primary' className={classes.btn} >Add product</Button>
+                    <Button onClick={(e) => handleSubmit(e)} variant='contained' color='primary' className={classes.btn} >Add product</Button>
                 </form>
             </ThemeProvider>
         </div>

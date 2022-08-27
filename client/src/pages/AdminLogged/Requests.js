@@ -17,6 +17,13 @@ const useStyles = makeStyles(theme => ({
         margin: "auto",
         color: 'red'
     },
+    title: {
+        fontFamily: "laila",
+        opacity: "0.7",
+        fontSize: "2.5rem",
+        marginLeft: "7rem",
+        fontWeight: "600"
+    }
 }))
 export default function Requests() {
     const classes = useStyles();
@@ -43,7 +50,7 @@ export default function Requests() {
                 console.log(err)
             }
         }
-     
+
         const interval = setInterval(() => {
             getData()
         }, 1000)
@@ -60,9 +67,11 @@ export default function Requests() {
                 </>
                 :
                 <>
+                    <Typography className={classes.title}>Requests</Typography>
                     {reqData === "None to show" || reqData === [] ?
-                        <>
+                        <div style={{ marginBottom: "25rem", marginTop: "-7rem" }}>
                             <ErrorPage
+
                                 icon={<ErrorIcon style={{ fontSize: "5rem", color: '#FFB200' }} />}
                                 title=""
                                 message="There is no requests pending right now.You will find them here if any available."
@@ -72,11 +81,11 @@ export default function Requests() {
                             // secondaryActionLabel="Support"
                             // secondaryAction={() => console.log("Secondary action")}
                             />
-                            <CssBaseline />
-                        </>
+
+                        </div>
                         :
 
-                        <AdminCardComponent data={reqData} forceUpdate={forceUpdate} />
+                        <AdminCardComponent data={reqData} />
                     }
 
                 </>

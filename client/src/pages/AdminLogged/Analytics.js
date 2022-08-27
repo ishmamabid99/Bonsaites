@@ -5,9 +5,10 @@ import ChartShow from './ChartShow'
 import { chartColors } from '../../colors'
 const useStyles = makeStyles(theme => ({
     Header: {
-        fontFamily: "Overpass",
-        fontSize: "3rem",
-        margin: "5rem",
+        fontFamily: "laila",
+        opacity: "0.7",
+        fontSize: "2.5rem",
+        marginLeft: "7rem",
         fontWeight: "600"
     },
     Paper: {
@@ -15,7 +16,8 @@ const useStyles = makeStyles(theme => ({
         height: "35rem",
         padding: "2rem",
         marginLeft: "10rem",
-        marginBottom: "10rem"
+        marginBottom: "10rem",
+        marginTop: "7rem"
     },
     div: {
         padding: "2rem",
@@ -52,7 +54,7 @@ export default function Analytics() {
     return (
         <div>
             <>
-                <Typography color='primary' className={classes.Header}>Analytics</Typography>
+                <Typography className={classes.Header} align='left'>Analytics</Typography>
                 <Paper align='center' className={classes.Paper} elevation={2}>
                     <div className={classes.div}>
                         <ChartShow data={dataX} labels={labels} />

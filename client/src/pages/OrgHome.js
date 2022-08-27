@@ -1,6 +1,4 @@
 import { makeStyles, Typography } from '@material-ui/core'
-import Cookies from 'js-cookie';
-import jwtDecode from 'jwt-decode';
 import React, { useContext, useEffect, useState } from 'react'
 import NavProps from '../components/NavProps'
 import OrderComponent from '../components/OrderComponent';
@@ -11,9 +9,12 @@ const useStyles = makeStyles(theme => ({
         background: 'none',
     },
     typo: {
-        marginTop: "7rem",
-        fontFamily: "lemon",
-        fontSize: "3rem"
+        fontFamily: "laila",
+        opacity: "0.7",
+        fontSize: "2.5rem",
+        marginLeft: "7rem",
+        fontWeight: "600",
+        marginTop: "7rem"
     }
 }))
 
@@ -41,7 +42,7 @@ export default function OrgHome(props) {
                 <ProgressBar />
                 :
                 <>
-                    <Typography align='center' className={classes.typo}>
+                    <Typography className={classes.typo}>
                         Order History
                     </Typography>
                     <OrderComponent data={orders} />

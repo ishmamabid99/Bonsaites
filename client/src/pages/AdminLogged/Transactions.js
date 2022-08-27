@@ -7,10 +7,11 @@ const useStyles = makeStyles(theme => ({
         display: 'center'
     },
     title: {
-        fontFamily: "lemon",
+        fontFamily: "laila",
         opacity: "0.7",
         fontSize: "2.5rem",
-        marginLeft: "7rem"
+        marginLeft: "7rem",
+        fontWeight: "600"
     },
     titleTable: {
         fontFamily: 'overpass',
@@ -48,7 +49,7 @@ export default function Transactions() {
 
     return (
         <div className={classes.root}>
-            <Typography className={classes.title} align='center'>
+            <Typography className={classes.title} align='left'>
                 Transactions
             </Typography>
             <TableComponents tabData={tabData} setCount={setCount} count={count} />

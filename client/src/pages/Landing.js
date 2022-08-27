@@ -11,23 +11,26 @@ const useStyles = makeStyles(theme => ({
         background: "no-repeat",
         backgroundSize: "cover",
         width: "auto",
-        height: "60rem",
+        height: "63rem",
         border: "0",
+        paddingTop: "7rem"
     },
     typo: {
         fontFamily: "Overpass",
-        fontSize: "5rem",
+        fontSize: "4.5rem",
         color: "white",
         fontWeight: "800",
+        marginLeft: "-1.25rem"
     },
     div: {
         background: "transparent",
         width: "100%",
-        height: "60rem",
+        height: "70rem",
         "&:hover": {
             background: "black",
             opacity: "0.8"
-        }
+        },
+        marginTop: "-7rem"
     },
     writeDiv: {
         padding: "10rem  0rem  0rem 5rem"
@@ -48,6 +51,9 @@ const useStyles = makeStyles(theme => ({
         color: "black",
         fontWeight: "800",
         paddingTop: "0.35rem"
+    },
+    divX: {
+        marginBottom: "7rem"
     }
 }))
 
@@ -83,7 +89,7 @@ export default function Landing() {
                             Have You Seen
                         </Typography>
                         <Typography className={classes.typo}>
-                            Our Big Friday?
+                            Our Big Friday
                         </Typography>
 
                         <Typography className={classes.typo}>
@@ -97,7 +103,9 @@ export default function Landing() {
                     </div>
                 </div>
             </Paper>
-            <CardComponent obj={prodData} />
+            <div className={classes.divX}>
+                <CardComponent obj={prodData} />
+            </div>
             <Footer />
         </>
     )

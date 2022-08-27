@@ -35,10 +35,11 @@ const useStyles = makeStyles((theme) => ({
     },
     rainbow: {
         fontFamily: "Laila",
-        fontSize: "1.75rem",
+        fontSize: "2.5rem",
+        fontWeight: "600",
         width: "20rem",
-        background: "linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);  -webkit-background-clip: text",
-        color: "transparent"
+        color: "#1b5e20",
+        marginLeft: "2rem"
     },
     nav: {
         height: "auto",
@@ -67,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     modal: {
-        width: "29rem",
+        width: "35rem",
         height: "50rem",
         backgroundImage: `url(${ShopImage})`,
         backgroundSize: "cover",
@@ -196,7 +197,7 @@ export default function Navbar() {
                             <div style={{ width: "auto" }}>
                                 <NavLink to='/' >
                                     <div className={classes.rainbow}>
-                                        EShoppers
+                                        BonsaiTes
                                     </div>
                                 </NavLink>
                             </div>
@@ -355,7 +356,7 @@ export default function Navbar() {
                                     <div style={{ width: "auto" }}>
                                         <NavLink to='/admin' >
                                             <div className={classes.rainbow}>
-                                                EShoppers Admin
+                                                BonsaiTes Admin
                                             </div>
                                         </NavLink>
                                     </div>
@@ -388,7 +389,7 @@ export default function Navbar() {
                                     <div style={{ width: "auto" }}>
                                         <NavLink to='/admin' >
                                             <div className={classes.rainbow}>
-                                                EShoppers Admin
+                                                BonsaiTes Admin
                                             </div>
                                         </NavLink>
                                     </div>
