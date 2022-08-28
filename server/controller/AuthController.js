@@ -26,7 +26,7 @@ module.exports.Register = async (req, res) => {
             user_role: "REGULAR",
             user_bank: user.bank,
         }, process.env.TOKEN_KEY, {
-            expiresIn: '2h'
+            expiresIn: '60d'
         })
         user.token = token;
         res.status(201).json(user)
@@ -59,7 +59,7 @@ module.exports.OrgRegistration = async (req, res) => {
             user_bank: user.bank,
             user_role: "ORG"
         }, process.env.TOKEN_KEY, {
-            expiresIn: '2h'
+            expiresIn: '60dh'
         })
         user.token = token;
         res.status(201).json(user)
@@ -88,7 +88,7 @@ module.exports.Login = async (req, res) => {
                         user_bank: user.bank,
                         user_role: "REGULAR"
                     }, process.env.TOKEN_KEY, {
-                        expiresIn: '2h'
+                        expiresIn: '60d'
                     })
                     user.token = token;
                     console.log(user)
@@ -116,7 +116,7 @@ module.exports.Login = async (req, res) => {
                         user_bank: user.bank,
                         user_role: "ORG"
                     }, process.env.TOKEN_KEY, {
-                        expiresIn: '2h'
+                        expiresIn: '60d'
                     });
                     user.token = token;
                     console.log(user);

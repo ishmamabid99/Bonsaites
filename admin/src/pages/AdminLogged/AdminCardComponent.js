@@ -86,7 +86,7 @@ export default function AdminCardComponent(props) {
                     <>
                         <Paper className={classes.paper} elevation={0} key={index}>
                             <Link to={`/product/${order._id}`}> <Paper square={true} style={{
-                                backgroundImage: `url(${`/uploads/${order.img}`})`,
+                                backgroundImage: `url(${`../../../../uploads/${order.img}`})`,
                                 backgroundSize: "cover",
                                 height: '19rem',
                             }}

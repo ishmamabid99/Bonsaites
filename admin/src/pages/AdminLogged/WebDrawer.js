@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: "3rem"
     },
     listText: {
-        fontFamily: "Overpass",
+        fontFamily: "Laila",
         fontSize: "1.25rem"
     },
     toolbar: theme.mixins.toolbar,
@@ -42,9 +42,11 @@ const useStyles = makeStyles((theme) => ({
         fontSize: "3rem"
     },
     typograph: {
+        fontFamily: "Laila",
         fontSize: "1.5rem",
         fontWeight: "500",
-        opacity: "0.7"
+        opacity: "0.7",
+        fontWeight: "600"
     },
 }))
 const drawerWidth = 240;

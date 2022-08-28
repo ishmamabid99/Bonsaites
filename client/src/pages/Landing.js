@@ -65,8 +65,13 @@ export default function Landing() {
         const getData = async () => {
             try {
                 const data = await getProductData();
-                console.log(data)
-                setProdData(data);
+                if (data) {
+                    setProdData(data);
+                }
+                else {
+                    setProdData([])
+                }
+
             }
             catch (err) {
                 console.log(err)
@@ -104,7 +109,12 @@ export default function Landing() {
                 </div>
             </Paper>
             <div className={classes.divX}>
-                <CardComponent obj={prodData} />
+                {prodData === undefined || prodData.length === 0 ?
+                    <></>
+                    :
+
+                    <CardComponent obj={prodData} />
+                }
             </div>
             <Footer />
         </>

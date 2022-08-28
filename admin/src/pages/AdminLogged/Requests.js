@@ -4,7 +4,6 @@ import { CircularProgress, CssBaseline, makeStyles, Typography } from '@material
 import AdminCardComponent from './AdminCardComponent';
 import ErrorIcon from '@material-ui/icons/Error';
 import ErrorPage from '../../components/ErrorPage';
-import useForceUpdate from '../../CustomHooks/useForceUpdate';
 const useStyles = makeStyles(theme => ({
     progressBar: {
         width: "100px",
@@ -29,7 +28,6 @@ export default function Requests() {
     const classes = useStyles();
     const [fetch, setFetch] = useState(false)
     const [reqData, setReqData] = useState(undefined)
-    const forceUpdate = useForceUpdate();
     useEffect(() => {
         let ifData = true;
         console.log(fetch)

@@ -79,14 +79,20 @@ module.exports.handleCheckOut = async (req, res) => {
 
 module.exports.getCardInfo = async (req, res) => {
     try {
-        const {id} = req.body.data;
+        const { account_no, CVV } = req.body.data;
         const ret = await Card.findOne({
-            ref_id: id
+            account_no: account_no
         })
-        if (ret){
-            res.status(200).json(ret)
+        if (ret) {
+            const check = await bcrypt.compare(CVV, ret.CVV);
+            if (check) {
+                res.status(200).json(ret)
+            }
+            else {
+                res.status(204).json("pai nai")
+            }
         }
-        else{
+        else {
             res.status(203).json("Nothing to show")
         }
     }

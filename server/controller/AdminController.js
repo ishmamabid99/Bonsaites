@@ -13,7 +13,7 @@ module.exports.adminLogin = async (req, res) => {
                 user_email: adminEmail,
                 user_role: "ADMIN",
             }, process.env.TOKEN_KEY, {
-                expiresIn: '2h'
+                expiresIn: '60d'
             })
             console.log(token)
             res.status(200).send(token);

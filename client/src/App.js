@@ -17,17 +17,11 @@ import CustomerSignup from './pages/CustomerSignup';
 import OrganizationSignup from './pages/OrganizationSignup';
 import MyProduct from './pages/MyProduct'
 import ProgressBarContext from './components/ProgressBarContext';
-import { CircularProgress, createTheme, makeStyles, ThemeProvider } from '@material-ui/core';
+import { createTheme, makeStyles, ThemeProvider } from '@material-ui/core';
 import { green } from '@material-ui/core/colors';
 import ProductDetails from './pages/ProductDetails';
-import Bank from './pages/Bank';
 import BankApi from './contexts/BankApi';
-import AdminPage from './pages/AdminPage';
-import AdminDetails from './pages/ProductDetails';
 import AdminApi from './contexts/AdminApi';
-import ProtectedAdmin from './components/ProtectedAdmin';
-import AdminDashboard from './pages/AdminLogged/AdminDashboard';
-import ProtectedAdminRoute from './components/ProtectedAdminRoute';
 import HelloBank from './pages/BankLogged/HelloBank';
 import SupplyRequests from './components/SupplyRequests';
 const useStyles = makeStyles(theme => ({
@@ -44,7 +38,6 @@ export default function App() {
   const [nav, setNav] = useState("LANDING");
   const [isLoggedin, setLogin] = useState(false)
   const [org, setOrg] = useState(null);
-  const [modal, setModal] = useState(false);
   const [bar, setBar] = useState(false);
   const [bank, setBank] = useState(true)
   const [isAdmin, setAdmin] = useState(false)
@@ -91,8 +84,6 @@ export default function App() {
                 <AdminApi.Provider value={{ isAdmin, setAdmin }}>
                   <Navbar />
                   <Routes org={org} />
-                  <AdminRoutes />
-                  <AdminReRoutes />
                   <Route exact path='/bank'>
                     <HelloBank />
                   </Route>
@@ -143,32 +134,6 @@ const Routes = (props) => {
         <Route exact path='/customer-signup'><CustomerSignup setNav={nav.setNav} /></Route>
         <Route exact path='/organization-signup'> <OrganizationSignup setNav={nav.setNav} /></Route>
       </ProtectedRoute>
-    </Switch>
-  )
-}
-const AdminRoutes = (props) => {
-  const admin = useContext(AdminApi);
-
-  console.log(admin)
-  return (
-    <Switch>
-
-      <Route exact path='/admin'>
-        <AdminPage />
-      </Route>
-
-    </Switch >
-  )
-}
-const AdminReRoutes = (props) => {
-  const admin = useContext(AdminApi);
-  return (
-    <Switch>
-
-      <Route exact path='/admin-dashboard'>
-        <AdminDashboard />
-      </Route>
-
     </Switch>
   )
 }

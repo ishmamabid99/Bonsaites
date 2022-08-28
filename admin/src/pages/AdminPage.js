@@ -4,14 +4,12 @@ import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import React, { useContext, useEffect, useState } from 'react'
 import { Redirect, useHistory } from 'react-router-dom';
-import NavProps from '../components/NavProps'
 import AdminApi from '../contexts/AdminApi';
-import { adminEmail, adminPass } from '../env/env';
+import NavProps from '../contexts/NavProps';
 import { adminLogin } from '../functions/postData';
-import { SwlCredentialsError, SwlLoginError } from '../functions/Swal';
+import { SwlLoginError } from '../functions/Swal';
 import Admin from '../images/Admin.svg'
 import myadminPage from '../images/adminPage.svg'
-import AdminDashboard from './AdminLogged/AdminDashboard';
 const useStyles = makeStyles((theme) => ({
     txtfield: {
         width: "22rem",
@@ -42,21 +40,20 @@ const useStyles = makeStyles((theme) => ({
     },
     admin: {
         height: "70rem",
-        width: "auto",
+        width: "80rem",
         backgroundImage: `url(${myadminPage})`,
         backgroundRepeat: "no-repeat",
         backgrounSize: "cover",
         marginTop: "7rem",
-        background: "red"
+        marginLeft: "15rem"
     }
 }))
 export default function AdminPage(props) {
     const nav = useContext(NavProps);
     const [data, setData] = useState({})
-    const loginState = useContext(AdminApi);
+    const loginState = useContext(AdminApi)
     console.log(loginState)
     nav.setNav("ADMIN");
-    const history = useHistory()
     const classes = useStyles();
     const theme = createTheme({
         palette: {
@@ -104,7 +101,7 @@ export default function AdminPage(props) {
                 if (ret) {
                     Cookies.set('admin-access', ret)
                     loginState.setAdmin(true)
-                    window.location.href = '/admin-dashboard'
+                    window.location.href = '/dashboard'
                 }
                 else {
                     loginState.setAdmin(false)
@@ -121,13 +118,13 @@ export default function AdminPage(props) {
     }
     if (loginState.isAdmin) {
         return (
-            <Redirect to='/admin-dashboard' replace />
+            <Redirect to='/dashboard' replace />
         )
     }
     else {
         return (
-            <Grid container justifyContent='space-between'>
-                <Paper className={classes.admin}></Paper>
+            <Grid container justifyContent='flex-start'>
+                <Paper className={classes.admin} elevation={0}></Paper>
                 <Paper elevation={0}>
                     <ThemeProvider theme={theme}>
                         <Typography align='center' className={classes.typo}>ADMIN LOGIN</Typography>
