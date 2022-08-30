@@ -1,21 +1,11 @@
 <h1 align="center">
-🌐 MERN Stack
+🌐 BonsaiTes - A plant saling app
 </h1>
-<p align="center">
+<h4 align="center">
 MongoDB, Expressjs, React/Redux, Nodejs
-</p>
+</h4>
 
-<p align="center">
-   <a href="https://travis-ci.com/amazingandyyy/mern">
-      <img src="https://travis-ci.com/amazingandyyy/mern.svg?branch=master" />
-   </a>
-   <a href="https://github.com/amazingandyyy/mern/blob/master/LICENSE">
-      <img src="https://img.shields.io/badge/License-MIT-green.svg" />
-   </a>
-   <a href="https://circleci.com/gh/amazingandyyy/mern">
-      <img src="https://circleci.com/gh/amazingandyyy/mern.svg?style=svg" />
-   </a>
-</p>
+
 
 > MERN is a fullstack implementation in MongoDB, Expressjs, React/Redux, Nodejs.
 
@@ -23,8 +13,8 @@ MERN stack is the idea of using Javascript/Node for fullstack web development.
 
 ## clone or download
 ```terminal
-$ git clone https://github.com/amazingandyyy/mern.git
-$ npm i
+$ git clone https://github.com/ishmamabid99/uBuy.git
+$ yarn install
 ```
 
 ## project structure
@@ -36,88 +26,103 @@ server/
    .env (to create .env, check [prepare your secret session])
 client/
    package.json
+admin/
+   package.json
+bank/
+   package.json
 ...
 ```
 
 # Usage (run fullstack app on your machine)
 
-## Prerequisites
-- [MongoDB](https://gist.github.com/nrollr/9f523ae17ecdbb50311980503409aeb3)
-- [Node](https://nodejs.org/en/download/) ^10.0.0
-- [npm](https://nodejs.org/en/download/package-manager/)
+
 
 notice, you need client and server runs concurrently in different terminal session, in order to make them talk to each other
 
 ## Client-side usage(PORT: 3000)
 ```terminal
 $ cd client   // go to client folder
-$ npm i       // npm install packages
-$ npm run dev // run it locally
+$ yarn install
+$ yarn start
 
-// deployment for client app
-$ npm run build // this will compile the react code using webpack and generate a folder called docs in the root level
-$ npm run start // this will run the files in docs, this behavior is exactly the same how gh-pages will run your static site
+
 ```
-
-## Server-side usage(PORT: 8000)
-
-### Prepare your secret
-
-run the script at the first level:
-
-(You need to add a JWT_SECRET in .env to connect to MongoDB)
-
+## Admin-side usage(PORT: 8000)
 ```terminal
-// in the root level
-$ echo "JWT_SECRET=YOUR_JWT_SECRET" >> ./server/src/.env
+$ cd admin   // go to client folder
+$ yarn install
+$ yarn start
+
 ```
-
-### Start
-
+## bank-side usage(PORT: 9000)
 ```terminal
-$ cd server   // go to server folder
-$ npm i       // npm install packages
-$ npm run dev // run it locally
-$ npm run build // this will build the server code to es5 js codes and generate a dist file
+$ cd bank   // go to client folder
+$ yarn install
+$ yarn start
+
 ```
 
-## Deploy Server to [Heroku](https://dashboard.heroku.com/)
+
+
+## Server-app usage(PORT: 5000)
 ```terminal
-$ npm i -g heroku
-$ heroku login
-...
-$ heroku create
-$ npm run heroku:add <your-super-amazing-heroku-app>
-// remember to run this command in the root level, not the server level, so if you follow the documentation along, you may need to do `cd ..`
-$ pwd
-/Users/<your-name>/mern
-$ npm run deploy:heroku
+$ cd server   // go to client folder
+$ yarn install
+$ nodemon serverApp.js
+
 ```
+## Bank-app usage(PORT: 5000)
+```terminal
+$ cd server   // go to client folder
+$ nodemon serverBank.js
 
-### After creating heroku
+```
+## Admin-app usage(PORT: 5000)
+```terminal
+$ cd server   // go to client folder
+$ nodemon serverAdmin.js
 
-remember to update the file of [client/webpack.prod.js](https://github.com/amazingandyyy/mern/blob/master/client/webpack.prod.js)
-```javascript
- 'API_URI': JSON.stringify('https://your-super-amazing-heroku-app.herokuapp.com')
 ```
 
 # Dependencies(tech-stacks)
-Client-side | Server-side
---- | ---
-axios: ^0.15.3 | bcrypt-nodejs: ^0.0.3
-babel-preset-stage-1: ^6.1.18|body-parser: ^1.15.2
-lodash: ^3.10.1 | cors: ^2.8.1
-react: ^16.2.0 | dotenv: ^2.0.0
-react-dom: ^16.2.0 | express: ^4.14.0
-react-redux: ^4.0.0 | jwt-simple: ^0.5.1
-react-router-dom: ^4.2.2 | mongoose: ^4.7.4
-redux: ^3.7.2 | morgan: ^1.7.0
-redux-thunk: ^2.1.0 |
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.11.3",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/user-event": "^13.2.1",
+    "axios": "^0.27.2",
+    "bootstrap": "^5.2.0",
+    "chart.js": "^3.8.0",
+    "http-proxy-middleware": "^2.0.6",
+    "js-cookie": "^3.0.1",
+    "jwt-decode": "^3.1.2",
+    "react": "^18.1.0",
+    "react-bootstrap": "^2.5.0",
+    "react-chartjs-2": "^4.1.0",
+    "react-dom": "^18.1.0",
+    "react-image-magnifiers": "^1.4.0",
+    "react-router-dom": "5.2.0",
+    "react-scripts": "5.0.1",
+    "sweetalert2": "^11.4.18",
+    "web-vitals": "^2.1.0"   
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.3.1",
+    "multer": "^1.4.4"
 
 # Screenshots of this project
 
 User visit public and Home page
-![User visit public and Home page](http://i.imgur.com/ORCGHHY.png)
+![](https://imgur.com/eRKJEiJ)
+![](https://imgur.com/ySlGVWY)
+![](https://imgur.com/Fd4LX4l)
+![](https://imgur.com/5R6xwfF)
+![](https://imgur.com/qvfZE9e)
+![](https://imgur.com/eRKJEiJ)
+![](https://imgur.com/zpYzSgp)
 
 User can sign in or sign up
 ![User can sign in or sign up](http://i.imgur.com/rrmbU5I.png)
@@ -131,16 +136,10 @@ After signing in user can go to account route and make request to token-protecte
 
 ## BUGs or comments
 
-[Create new Issues](https://github.com/amazingandyyy/mern/issues) (preferred)
 
-Email Me: amazingandyyy@gmail.com (welcome, say hi)
+Email Me: ishmam.abid5422@gmail.com
 
-## Author
-[Amazingandyyy](https://amazingandyyy.com)
 
-I recently launch my monthly mentorship program, feel free to reach out and see what we can grow together:
-
-<a href="https://mentorcruise.com/mentor/andychen/"> <img src="https://cdn.mentorcruise.com/img/banner/fire-sm.svg" width="240" alt="MentorCruise"> </a>
 
 ### License
 [MIT](https://github.com/amazingandyyy/mern/blob/master/LICENSE)
