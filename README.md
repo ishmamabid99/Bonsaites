@@ -116,13 +116,8 @@ $ nodemon serverAdmin.js
 # Screenshots of this project
 
 User visit public and Home page
-![](https://imgur.com/eRKJEiJ)
-![](https://imgur.com/ySlGVWY)
-![](https://imgur.com/Fd4LX4l)
-![](https://imgur.com/5R6xwfF)
-![](https://imgur.com/qvfZE9e)
-![](https://imgur.com/eRKJEiJ)
-![](https://imgur.com/zpYzSgp)
+[Imgur](https://imgur.com/chC7NuC)
+
 
 User can sign in or sign up
 ![](https://imgur.com/eRKJEiJ)
