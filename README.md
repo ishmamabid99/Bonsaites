@@ -113,21 +113,9 @@ $ nodemon serverAdmin.js
     "mongoose": "^6.3.1",
     "multer": "^1.4.4"
 
-# Screenshots of this project
-
-User visit public and Home page
-[Imgur](https://imgur.com/chC7NuC)
 
 
-User can sign in or sign up
-![](https://imgur.com/eRKJEiJ)
 
-After signing in user can go to account route and make request to token-protected API endpoint
-![After signing in user can go to account route](http://i.imgur.com/FzLB51u.png)
-
-## Standard
-
-[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
 ## BUGs or comments
 
