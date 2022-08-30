@@ -125,7 +125,7 @@ User visit public and Home page
 ![](https://imgur.com/zpYzSgp)
 
 User can sign in or sign up
-![User can sign in or sign up](http://i.imgur.com/rrmbU5I.png)
+![](https://imgur.com/eRKJEiJ)
 
 After signing in user can go to account route and make request to token-protected API endpoint
 ![After signing in user can go to account route](http://i.imgur.com/FzLB51u.png)
